@@ -50,6 +50,17 @@ h1{margin:0 0 1rem;font-size:clamp(2.2rem,5vw,3.2rem);line-height:1.05;letter-sp
 .prose a{color:var(--cyan);text-decoration-color:rgba(102,231,255,.4)}
 .prose a:hover{text-decoration-color:currentColor}
 
+.compare-wrap{margin:2rem 0;border:1px solid var(--line);border-radius:18px;overflow:auto}
+.compare{width:100%;border-collapse:collapse;font-size:.92rem;min-width:520px}
+.compare th,.compare td{padding:.9rem 1.1rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+.compare thead th{font:750 .68rem ui-monospace,SFMono-Regular,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:rgba(255,255,255,.03)}
+.compare tbody th{font-weight:620;color:var(--ink);white-space:nowrap}
+.compare tbody tr:last-child td,.compare tbody tr:last-child th{border-bottom:0}
+.compare td{color:#c3ceE0}
+.compare .yes{color:var(--lime)}
+.compare .no{color:var(--muted)}
+.compare-note{margin-top:.8rem;font-size:.8rem;color:var(--muted)}
+
 .glossary{display:grid;gap:1.6rem;margin:2rem 0}
 .glossary-item{padding-bottom:1.6rem;border-bottom:1px solid var(--line)}
 .glossary-item:last-child{border-bottom:0}
