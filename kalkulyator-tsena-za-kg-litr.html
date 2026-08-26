@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#05070d">
+  <meta name="description" content="Бесплатный калькулятор цены за килограмм, литр или штуку. Сравните упаковки разного размера и найдите, что реально дешевле.">
+  <link rel="canonical" href="https://chekometr.ru/kalkulyator-tsena-za-kg-litr">
+  <link rel="icon" type="image/png" sizes="256x256" href="assets/chekometr-app-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/chekometr-apple-touch-icon.png">
+  <link rel="stylesheet" href="assets/article.css">
+  <link rel="stylesheet" href="assets/calculator.css">
+  <title>Калькулятор цены за кг и литр — Чекометр</title>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Чекометр">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:url" content="https://chekometr.ru/kalkulyator-tsena-za-kg-litr">
+  <meta property="og:title" content="Калькулятор цены за килограмм и литр">
+  <meta property="og:description" content="Бесплатный калькулятор: сравните упаковки разного размера и найдите, что реально дешевле — за кг, литр или штуку.">
+  <meta property="og:image" content="https://chekometr.ru/assets/chekometr-app-icon.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Калькулятор цены за килограмм и литр">
+  <meta name="twitter:description" content="Бесплатный калькулятор: сравните упаковки разного размера и найдите, что реально дешевле — за кг, литр или штуку.">
+  <meta name="twitter:image" content="https://chekometr.ru/assets/chekometr-app-icon.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Калькулятор цены за килограмм и литр",
+    "url": "https://chekometr.ru/kalkulyator-tsena-za-kg-litr",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any (веб-браузер)",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" },
+    "description": "Бесплатный веб-калькулятор для сравнения цены за килограмм, литр или штуку между упаковками разного размера."
+  }
+  </script>
+</head>
+<body>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7Z0QMZLKXD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7Z0QMZLKXD');
+  </script>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111971483', 'ym');
+
+    ym(111971483, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111971483" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  <a class="skip" href="#content">К калькулятору</a>
+  <header>
+    <nav class="nav" aria-label="Основная навигация">
+      <a class="brand" href="/" aria-label="Чекометр — на главную"><img class="brand-mark" src="assets/chekometr-app-icon.png" alt="" width="36" height="36" decoding="async">Чекометр</a>
+      <div class="nav-links">
+        <a href="/#method">Как работает</a><a href="/#analytics">Аналитика</a><a href="/#features">Возможности</a>
+        <a class="nav-cta" href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener">Скачать</a>
+      </div>
+    </nav>
+  </header>
+  <main id="content">
+    <article class="article-shell">
+      <span class="kicker">Инструмент</span>
+      <h1>Калькулятор цены за килограмм и литр</h1>
+      <p class="dek">Упаковки разного размера сравнивать на глаз бесполезно — маленькая пачка может стоить дешевле за килограмм, чем большая. Выберите тип товара, впишите цену и вес или объём каждого варианта — калькулятор сам приведёт всё к одной единице и покажет, что выгоднее. Заодно так проще заметить <a href="/shrinkflyaciya">шринкфляцию</a>.</p>
+
+      <div class="tool" id="calc">
+        <div class="tool-actions" aria-label="Тип сравнения" style="margin-top:0;margin-bottom:1.2rem">
+          <button type="button" class="tool-add" data-mode="weight" aria-pressed="true">Вес (кг)</button>
+          <button type="button" class="tool-add" data-mode="volume" aria-pressed="false">Объём (л)</button>
+          <button type="button" class="tool-add" data-mode="count" aria-pressed="false">Штучный товар</button>
+        </div>
+        <table class="tool-table">
+          <thead>
+            <tr><th>Товар</th><th>Цена, ₽</th><th id="amountHeader">Вес</th><th id="unitHeader">Единица</th><th></th></tr>
+          </thead>
+          <tbody id="calcRows"></tbody>
+        </table>
+        <div class="tool-actions">
+          <button type="button" class="tool-add" id="addRow">+ Добавить вариант</button>
+          <button type="button" class="tool-calc" id="calcBtn">Сравнить</button>
+        </div>
+        <div class="tool-result" id="result" hidden aria-live="polite">
+          <div class="tool-breakdown" id="breakdown"></div>
+          <p class="tool-hint" id="resultHint"></p>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>Калькулятор считает всё в вашем браузере — введённые названия, цены и вес не передаются на сервер Чекометра и нигде не сохраняются.</p>
+        <p>Сравнение имеет смысл только внутри одного типа — например, между двумя пачками молока, а не между молоком и хлебом. Переключатель сверху задаёт единицу, к которой калькулятор приведёт все строки.</p>
+
+        <div class="cta-inline">
+          <p>Чекометр показывает историю цен по каждому товару из ваших чеков — без ручных расчётов при каждой покупке.</p>
+          <a href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener">Скачать Чекометр</a>
+        </div>
+
+        <div class="disclaimer">
+          <span class="disclaimer-label">Важно</span>
+          <p>Расчёт — это личный инструмент сравнения на основе введённых вами данных, а не официальная цена или финансовая рекомендация. Точность зависит от того, насколько верно указаны вес, объём и цена на упаковке.</p>
+        </div>
+      </div>
+
+      <div class="related">
+        <h2>Дальше</h2>
+        <div class="related-links">
+          <a href="/shrinkflyaciya">Шринкфляция: как незаметно дорожают товары</a>
+          <a href="/lichnaya-inflyaciya">Личная инфляция: что это и как её посчитать</a>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer><div class="footer-inner"><span>© 2026 Чекометр · support@chekometr.ru</span><div class="footer-links"><a href="/terms">Условия</a><a href="/consent">Согласие</a><a href="/privacy">Конфиденциальность</a><a href="/contacts">Контакты</a><a href="/support">Поддержка</a></div></div></footer>
+  <script>
+    (()=>{
+      const modes = {
+        weight: { amountLabel: 'Вес', unitLabel: 'Единица', resultUnit: 'кг', units: [{ divisor: 1000, label: 'г' }, { divisor: 1, label: 'кг' }] },
+        volume: { amountLabel: 'Объём', unitLabel: 'Единица', resultUnit: 'л', units: [{ divisor: 1000, label: 'мл' }, { divisor: 1, label: 'л' }] },
+        count:  { amountLabel: 'Количество', unitLabel: 'Единица', resultUnit: 'шт', units: [{ divisor: 1, label: 'шт' }] }
+      };
+      let currentMode = 'weight';
+
+      const modeButtons = [...document.querySelectorAll('.tool-add[data-mode]')];
+      const amountHeader = document.querySelector('#amountHeader');
+      const unitHeader = document.querySelector('#unitHeader');
+      const rowsEl = document.querySelector('#calcRows');
+      const addBtn = document.querySelector('#addRow');
+      const calcBtn = document.querySelector('#calcBtn');
+      const resultEl = document.querySelector('#result');
+      const resultHintEl = document.querySelector('#resultHint');
+      const breakdownEl = document.querySelector('#breakdown');
+
+      function unitOptionsHtml(){
+        return modes[currentMode].units.map((u, i) => `<option value="${i}">${u.label}</option>`).join('');
+      }
+
+      function updateHeaders(){
+        amountHeader.textContent = modes[currentMode].amountLabel;
+        unitHeader.textContent = modes[currentMode].unitLabel;
+      }
+
+      function refreshRowUnitOptions(){
+        document.querySelectorAll('.f-unit').forEach(select => {
+          const prevIndex = select.selectedIndex;
+          select.innerHTML = unitOptionsHtml();
+          select.selectedIndex = Math.min(Math.max(prevIndex, 0), select.options.length - 1);
+        });
+      }
+
+      function setMode(mode){
+        if (mode === currentMode) return;
+        currentMode = mode;
+        modeButtons.forEach(btn => btn.setAttribute('aria-pressed', String(btn.dataset.mode === mode)));
+        updateHeaders();
+        refreshRowUnitOptions();
+        resultEl.hidden = true;
+      }
+
+      modeButtons.forEach(btn => btn.addEventListener('click', () => setMode(btn.dataset.mode)));
+
+      function addRow(placeholderName, placeholderAmount){
+        const tr = document.createElement('tr');
+        tr.className = 'tool-row';
+        tr.innerHTML = `
+          <td data-label="Товар"><input type="text" class="f-name ym-disable-keys" placeholder="${placeholderName || 'Например, пачка А'}" aria-label="Название варианта"></td>
+          <td data-label="Цена, ₽"><input type="text" inputmode="decimal" class="f-price ym-disable-keys" placeholder="0" aria-label="Цена, рубли"></td>
+          <td data-label="Вес / объём / количество"><input type="text" inputmode="decimal" class="f-amount ym-disable-keys" placeholder="${placeholderAmount || '0'}" aria-label="Вес, объём или количество"></td>
+          <td data-label="Единица"><select class="f-unit" aria-label="Единица измерения">${unitOptionsHtml()}</select></td>
+          <td><button type="button" class="rm" aria-label="Удалить строку">✕</button></td>
+        `;
+        tr.querySelector('.rm').addEventListener('click', () => { tr.remove(); });
+        rowsEl.appendChild(tr);
+      }
+
+      addRow('Пачка А', '400');
+      addRow('Пачка Б', '900');
+      addBtn.addEventListener('click', () => addRow());
+
+      function num(input){
+        const v = parseFloat(String(input.value).trim().replace(',', '.'));
+        return isNaN(v) ? 0 : v;
+      }
+
+      function calculate(){
+        const rows = [...rowsEl.querySelectorAll('.tool-row')];
+        const items = [];
+        rows.forEach((row, i) => {
+          const nameInput = row.querySelector('.f-name');
+          const priceInput = row.querySelector('.f-price');
+          const amountInput = row.querySelector('.f-amount');
+          const unitSelect = row.querySelector('.f-unit');
+          const name = nameInput.value.trim() || `Вариант ${i + 1}`;
+          const price = num(priceInput);
+          const amount = num(amountInput);
+          const unit = modes[currentMode].units[Number(unitSelect.value)] || modes[currentMode].units[0];
+          const hasRequiredValues = priceInput.value.trim() && amountInput.value.trim();
+          if (hasRequiredValues && price > 0 && amount > 0) {
+            const baseAmount = amount / unit.divisor;
+            items.push({ name, pricePerBase: price / baseAmount });
+          }
+        });
+        if (!items.length){
+          resultEl.hidden = false;
+          resultHintEl.textContent = 'Заполните цену и вес/объём/количество хотя бы для двух вариантов, чтобы сравнить.';
+          breakdownEl.innerHTML = '';
+          return;
+        }
+        items.sort((a, b) => a.pricePerBase - b.pricePerBase);
+        const best = items[0].pricePerBase;
+        const unitLabel = modes[currentMode].resultUnit;
+        resultEl.hidden = false;
+        resultHintEl.textContent = items.length === 1
+          ? 'Добавьте ещё один вариант, чтобы было с чем сравнивать.'
+          : `Цена приведена к одной единице — ${unitLabel}.`;
+        breakdownEl.innerHTML = items.map((it, i) => {
+          const diff = best > 0 ? ((it.pricePerBase / best) - 1) * 100 : 0;
+          const diffLabel = i === 0
+            ? '<b class="down">лучшая цена</b>'
+            : `<b class="up">+${diff.toFixed(0)}%</b> дороже`;
+          return `<div class="tool-breakdown-row"><span class="name">${it.name}</span><span class="figs">${it.pricePerBase.toFixed(2)} ₽/${unitLabel} · ${diffLabel}</span></div>`;
+        }).join('');
+      }
+
+      calcBtn.addEventListener('click', calculate);
+      updateHeaders();
+    })();
+  </script>
+</body>
+</html>
