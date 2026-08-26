@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#05070d">
+  <meta name="description" content="Чекометр — сканируйте чеки, наблюдайте личную инфляцию и превращайте покупки в ясную картину расходов.">
+  <link rel="canonical" href="https://chekometr.ru/">
+  <link rel="icon" type="image/png" sizes="256x256" href="assets/chekometr-app-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/chekometr-apple-touch-icon.png">
+  <meta name="apple-itunes-app" content="app-id=6775617473">
+  <title>Чекометр — финансовая обсерватория</title>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Чекометр">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:url" content="https://chekometr.ru/">
+  <meta property="og:title" content="Чекометр — финансовая обсерватория">
+  <meta property="og:description" content="Сканируйте чеки, наблюдайте личную инфляцию и превращайте покупки в ясную картину расходов.">
+  <meta property="og:image" content="https://chekometr.ru/assets/chekometr-app-icon.png">
+  <meta property="og:image:width" content="256">
+  <meta property="og:image:height" content="256">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Чекометр — финансовая обсерватория">
+  <meta name="twitter:description" content="Сканируйте чеки, наблюдайте личную инфляцию и превращайте покупки в ясную картину расходов.">
+  <meta name="twitter:image" content="https://chekometr.ru/assets/chekometr-app-icon.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Чекометр",
+    "url": "https://chekometr.ru/",
+    "logo": "https://chekometr.ru/assets/chekometr-app-icon.png",
+    "email": "support@chekometr.ru"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Чекометр",
+    "url": "https://chekometr.ru/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "iOS",
+    "description": "Сканирование чеков с AI-распознаванием позиций, учёт расходов по категориям и расчёт личной инфляции на основе реальных покупок.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "RUB"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink:#f3f7ff;
+      --muted:#9ca8bd;
+      --night:#05070d;
+      --panel:rgba(13,18,31,.68);
+      --line:rgba(176,205,255,.16);
+      --cyan:#66e7ff;
+      --violet:#8b75ff;
+      --lime:#c7ff7a;
+      --danger:#ff6c91;
+      --mx:50%;
+      --my:40%;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--night)}
+    body{margin:0;min-width:320px;background:
+      radial-gradient(circle at var(--mx) var(--my),rgba(72,95,180,.16),transparent 31rem),
+      linear-gradient(180deg,#05070d 0%,#080b14 45%,#05070d 100%);
+      color:var(--ink);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+    button,a{font:inherit}
+    a{color:inherit}
+    .skip{position:fixed;z-index:99;left:1rem;top:-5rem;padding:.8rem 1rem;background:var(--ink);color:var(--night);border-radius:.7rem;text-decoration:none}
+    .skip:focus{top:1rem}
+    .no-js{width:min(1180px,calc(100% - 2rem));margin:6rem auto 0;padding:.8rem 1rem;border:1px solid var(--line);border-radius:12px;background:#101624;color:#d5deed;text-align:center;font-size:.8rem}
+    .scroll-progress{position:fixed;z-index:60;left:0;top:0;width:100%;height:2px;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,var(--violet),var(--cyan),var(--lime));box-shadow:0 0 14px var(--cyan);pointer-events:none}
+    #starfield{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.78}
+    .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.16;background-image:radial-gradient(circle at 11% 17%,rgba(255,255,255,.35) 0 .45px,transparent .7px),radial-gradient(circle at 61% 73%,rgba(255,255,255,.24) 0 .4px,transparent .65px);background-size:7px 9px,11px 13px;mix-blend-mode:soft-light}
+    header{position:relative;z-index:80}
+    main,footer{position:relative;z-index:2}
+    .nav{position:fixed;z-index:30;left:50%;top:1rem;transform:translateX(-50%);width:min(1180px,calc(100% - 2rem));height:64px;padding:0 12px 0 20px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(5,7,13,.62);backdrop-filter:blur(24px) saturate(140%);display:flex;align-items:center;justify-content:space-between;box-shadow:0 18px 70px rgba(0,0,0,.28)}
+    .brand{display:flex;gap:.75rem;align-items:center;text-decoration:none;font-weight:720;letter-spacing:-.03em}
+    .brand-mark{display:block;width:36px;height:36px;object-fit:cover;border-radius:10px;box-shadow:0 0 0 1px rgba(255,255,255,.2),0 10px 28px rgba(43,113,255,.28)}
+    .nav-links{display:flex;align-items:center;gap:1.5rem}
+    .nav-links>a:not(.nav-cta){font-size:.82rem;color:var(--muted);text-decoration:none;transition:color .2s}
+    .nav-links>a:hover{color:#fff}
+    .nav-cta,.primary,.secondary{display:inline-flex;align-items:center;justify-content:center;gap:.7rem;text-decoration:none;border-radius:999px;transition:transform .2s,box-shadow .2s,background .2s}
+    .nav-cta{height:42px;padding:0 1.1rem;background:var(--ink);color:#090c14;font-size:.82rem;font-weight:760}
+    .nav-cta::after,.primary::after{content:"↗";font-size:1.05em}
+    .nav-cta:hover,.primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(102,231,255,.22)}
+    main{overflow:hidden}
+    .shell{width:min(1180px,calc(100% - 3rem));margin-inline:auto}
+    .hero{min-height:100svh;padding:9.2rem 0 4rem;display:grid;grid-template-columns:minmax(0,1.03fr) minmax(420px,.97fr);align-items:center;gap:2rem;position:relative}
+    .hero-copy{position:relative;z-index:4}
+    .eyebrow{display:inline-flex;gap:.7rem;align-items:center;margin:0 0 1.35rem;text-transform:uppercase;letter-spacing:.18em;font-size:.68rem;font-weight:750;color:#bfd0eb}
+    .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 15px var(--lime);animation:pulse 2.2s ease-in-out infinite}
+    h1{margin:0;max-width:790px;font-size:clamp(3.6rem,7.2vw,7rem);line-height:.87;letter-spacing:-.075em;font-weight:650}
+    h1 .orbit-word{display:block;color:transparent;-webkit-text-stroke:1px rgba(239,247,255,.88);font-style:italic;font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:-.055em;filter:drop-shadow(0 0 24px rgba(102,231,255,.15))}
+    .lead{max-width:600px;margin:1.7rem 0 0;font-size:clamp(1.03rem,1.5vw,1.28rem);line-height:1.55;color:#aab6ca;letter-spacing:-.015em}
+    .lead strong{color:#f4f8ff;font-weight:600}
+    .ai-note{display:flex;align-items:center;gap:.75rem;max-width:590px;margin:1.15rem 0 0;color:#aebbd0;font-size:.8rem;line-height:1.45}
+    .ai-note span{flex:0 0 auto;padding:.42rem .65rem;border:1px solid rgba(199,255,122,.3);border-radius:999px;background:rgba(199,255,122,.08);color:var(--lime);font:750 .62rem ui-monospace,SFMono-Regular,monospace;letter-spacing:.14em}
+    .actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+    .primary,.secondary{min-height:54px;padding:0 1.45rem;font-weight:740;font-size:.9rem}
+    .primary{color:#071018;background:linear-gradient(115deg,var(--cyan),#c7f8ff 52%,var(--lime));box-shadow:0 15px 50px rgba(102,231,255,.16)}
+    .secondary{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.035);color:#e5edfa}
+    .secondary:hover{background:rgba(255,255,255,.08);transform:translateY(-2px)}
+    .trust{margin-top:1.1rem;color:#7f8ca3;font-size:.72rem;letter-spacing:.04em}
+    .hero-visual{min-height:650px;position:relative;isolation:isolate}
+    .observatory{position:absolute;inset:0;isolation:isolate}
+    .aura{position:absolute;z-index:0;left:50%;top:50%;width:500px;height:500px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(102,231,255,.18),rgba(139,117,255,.08) 37%,transparent 70%);filter:blur(22px)}
+    .ring{position:absolute;z-index:0;left:50%;top:50%;border:1px solid rgba(160,201,255,.25);border-radius:50%;transform-style:flat;box-shadow:inset 0 0 25px rgba(102,231,255,.03);pointer-events:none}
+    .ring::after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 18px var(--cyan);left:12%;top:18%}
+    .ring-a{width:570px;height:570px;transform:translate(-50%,-50%) rotateX(68deg) rotateZ(-15deg);animation:spin-a 19s linear infinite}
+    .ring-b{width:430px;height:430px;transform:translate(-50%,-50%) rotateY(66deg) rotateZ(28deg);border-color:rgba(139,117,255,.32);animation:spin-b 23s linear infinite reverse}
+    .ring-c{width:320px;height:320px;transform:translate(-50%,-50%) rotateX(77deg) rotateZ(50deg);border-style:dashed;animation:spin-a 14s linear infinite reverse}
+    .phone{position:absolute;z-index:4;left:50%;top:50%;width:280px;height:608px;transform:translate(-50%,-50%);overflow:hidden;isolation:isolate;contain:paint;border:1px solid rgba(255,255,255,.25);border-radius:32px;background:#eef2f7;box-shadow:-35px 45px 90px rgba(0,0,0,.65),0 0 90px rgba(102,231,255,.14)}
+    .phone img{position:absolute;left:50%;top:-149px;display:block;width:361px;max-width:none;height:auto;transform:translateX(-50%);border:0;filter:none;backface-visibility:hidden}
+    .receipt{position:absolute;z-index:1;width:180px;min-height:265px;padding:20px 17px;color:#0d1016;background:#edf2ee;clip-path:polygon(0 0,100% 0,100% 97%,95% 100%,89% 97%,83% 100%,77% 97%,71% 100%,65% 97%,59% 100%,53% 97%,47% 100%,41% 97%,35% 100%,29% 97%,23% 100%,17% 97%,11% 100%,5% 97%,0 100%);box-shadow:0 28px 70px rgba(0,0,0,.4);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;transform-style:preserve-3d}
+    .receipt::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.025) 0 1px,transparent 1px 4px);pointer-events:none}
+    .receipt .receipt-name{font-size:14px;margin:0 0 5px;letter-spacing:.08em;font-weight:700}
+    .receipt small{font-size:7px;display:block;color:#66706d}
+    .receipt hr{border:0;border-top:1px dashed #89918e;margin:13px 0}
+    .receipt p{display:flex;justify-content:space-between;gap:8px;margin:9px 0;font-size:8px}
+    .receipt .total{font-size:12px;font-weight:800;margin-top:15px}
+    .receipt .scanline{position:absolute;left:0;right:0;height:2px;top:18%;background:var(--cyan);box-shadow:0 0 16px 4px rgba(102,231,255,.45);animation:scan 3.8s ease-in-out infinite}
+    .r1{left:1%;top:12%;transform:rotate(-9deg) rotateY(22deg) translateZ(-10px);animation:float-a 6s ease-in-out infinite}
+    .r2{right:-1%;bottom:10%;transform:rotate(10deg) rotateY(-18deg) translateZ(0);animation:float-b 7s ease-in-out infinite reverse;filter:brightness(.78);opacity:.72}
+    .coordinates{position:absolute;right:1%;top:5%;font:8px ui-monospace,monospace;letter-spacing:.16em;color:#66748d;writing-mode:vertical-rl}
+    .hero-foot{grid-column:1/-1;margin-top:-1rem;display:grid;grid-template-columns:repeat(4,1fr);border-block:1px solid var(--line)}
+    .hero-stat{padding:1.4rem 1.2rem;border-right:1px solid var(--line)}
+    .hero-stat:last-child{border-right:0}
+    .hero-stat b{font-size:clamp(1.45rem,3vw,2.2rem);letter-spacing:-.06em}
+    .hero-stat span{display:block;margin-top:.3rem;color:#7f8da4;font-size:.72rem}
+    .signal-ticker{position:relative;z-index:3;overflow:hidden;border-block:1px solid rgba(255,255,255,.16);background:linear-gradient(90deg,var(--cyan),#d8fbff 38%,var(--lime));color:#071018;box-shadow:0 18px 70px rgba(102,231,255,.08)}
+    .ticker-track{display:flex;width:max-content;animation:ticker-run 42s linear infinite;will-change:transform}
+    .ticker-sequence{display:flex;align-items:center;justify-content:space-around;flex:none;min-width:100vw;padding:.9rem 0;font:820 .72rem ui-monospace,SFMono-Regular,monospace;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}
+    .ticker-sequence span{display:inline-flex;align-items:center}
+    .ticker-sequence span::after{content:"✦";margin:0 1.4rem;color:#5944d8}
+    .section{padding:9rem 0}
+    .section,.lab,.prices,.cta-zone{content-visibility:auto;contain-intrinsic-size:1px 900px}
+    .section-head{display:grid;grid-template-columns:.7fr 1.3fr;gap:2rem;margin-bottom:4.5rem;align-items:end}
+    .kicker{font:700 .66rem ui-monospace,SFMono-Regular,monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan)}
+    h2{font-size:clamp(2.7rem,5.8vw,5.7rem);line-height:.93;letter-spacing:-.065em;margin:0;font-weight:600}
+    .section-intro{color:#95a2b7;line-height:1.65;max-width:520px;margin:1.2rem 0 0}
+    .signal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:28px;overflow:hidden}
+    .signal-card{min-height:420px;background:rgba(6,9,16,.87);padding:2rem;position:relative;overflow:hidden}
+    .signal-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0,rgba(102,231,255,.1),transparent 42%);opacity:0;transition:opacity .5s}
+    .signal-card:hover::before{opacity:1}
+    .signal-no{display:flex;justify-content:space-between;color:#65738b;font:9px ui-monospace,monospace;letter-spacing:.15em}
+    .signal-viz{height:180px;margin:2rem 0;display:grid;place-items:center;position:relative}
+    .aperture{width:130px;height:130px;border-radius:50%;background:repeating-conic-gradient(from 10deg,rgba(102,231,255,.55) 0 7deg,rgba(7,10,18,.8) 7deg 15deg);box-shadow:0 0 50px rgba(102,231,255,.13);animation:planet 14s linear infinite}
+    .aperture::after{content:"";display:block;width:72px;height:72px;border-radius:50%;background:#080c14;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);box-shadow:inset 0 0 25px #000,0 0 0 1px rgba(255,255,255,.12)}
+    .beam{width:4px;height:140px;background:linear-gradient(transparent,var(--lime),transparent);box-shadow:0 0 30px var(--lime);transform:rotate(45deg);animation:beam 4s ease-in-out infinite}
+    .dots{display:grid;grid-template-columns:repeat(7,12px);gap:7px;transform:rotate(-8deg)}
+    .dots i{width:12px;height:12px;border-radius:3px;background:var(--violet);opacity:calc(.12 + var(--o));box-shadow:0 0 calc(var(--o)*18px) rgba(139,117,255,.8)}
+    .signal-card h3{font-size:1.42rem;letter-spacing:-.04em;margin:0 0 .8rem}
+    .signal-card p{color:#8795ab;line-height:1.55;margin:0;font-size:.92rem}
+    .lab{padding:10rem 0;background:linear-gradient(180deg,transparent,rgba(20,26,47,.44),transparent);position:relative}
+    .lab::before{content:"";position:absolute;inset:5% 0;background:linear-gradient(90deg,transparent,rgba(102,231,255,.05),transparent);transform:skewY(-4deg);pointer-events:none}
+    .lab-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:4rem;align-items:center}
+    .periods{display:flex;gap:.45rem;margin:2rem 0 2.4rem}
+    .period{min-height:44px;border:1px solid var(--line);color:#a8b3c6;background:rgba(255,255,255,.025);border-radius:99px;padding:.65rem .95rem;cursor:pointer;transition:.25s}
+    .period[aria-selected="true"]{background:var(--ink);color:#071018;border-color:var(--ink)}
+    .lab-total{font-size:clamp(3.8rem,7vw,6.8rem);letter-spacing:-.08em;font-weight:600;line-height:.9}
+    .lab-total small{font-size:.22em;letter-spacing:0;color:#78869d;font-weight:500}
+    .change{display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;padding:.45rem .7rem;border-radius:99px;background:rgba(255,108,145,.1);color:#ff8fab;font-size:.78rem}
+    .lab-copy p{max-width:480px;color:#8e9bb0;line-height:1.6}
+    .data-window{min-height:540px;border:1px solid rgba(184,210,255,.16);border-radius:30px;background:linear-gradient(160deg,rgba(16,22,37,.9),rgba(7,10,18,.92));box-shadow:0 50px 120px rgba(0,0,0,.35);padding:1.8rem;position:relative;overflow:hidden}
+    .data-window::before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(to bottom,#000,transparent 88%)}
+    .window-head{display:flex;justify-content:space-between;position:relative;z-index:1;color:#8a97ad;font:9px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase}
+    .chart-viewport{position:relative;z-index:2;overflow-x:auto;overflow-y:hidden;margin-inline:-.3rem;padding-inline:.3rem;scrollbar-width:thin;scrollbar-color:rgba(102,231,255,.35) transparent}
+    .chart-inner{min-width:0}
+    .chart{height:300px;margin-top:3.7rem;display:flex;align-items:flex-end;gap:clamp(8px,2vw,21px);position:relative;z-index:2;border-bottom:1px solid var(--line)}
+    .bar-wrap{flex:1;height:100%;display:flex;align-items:flex-end;position:relative}
+    .bar{width:100%;height:var(--h);min-height:8px;border-radius:9px 9px 0 0;background:linear-gradient(180deg,var(--cyan),rgba(102,231,255,.13));box-shadow:0 -8px 28px rgba(102,231,255,.13);transition:height .7s cubic-bezier(.2,.8,.2,1);position:relative}
+    .bar::before{content:attr(data-v);position:absolute;top:-1.7rem;left:50%;transform:translateX(-50%);font-size:.65rem;color:#aab7cb;white-space:nowrap}
+    .bar-wrap:nth-child(3n) .bar{background:linear-gradient(180deg,var(--violet),rgba(139,117,255,.12))}
+    .bar-wrap:nth-child(5n) .bar{background:linear-gradient(180deg,var(--lime),rgba(199,255,122,.1))}
+    .chart-labels{display:flex;gap:clamp(8px,2vw,21px);position:relative;z-index:2;margin-top:.75rem}
+    .chart-labels span{flex:1;text-align:center;color:#68758a;font-size:.64rem}
+    .prices{padding:1rem 0 9rem}
+    .prices-rail{display:grid;grid-template-columns:.8fr 1.2fr;border-block:1px solid var(--line);min-height:540px}
+    .prices-title{padding:4.5rem 3.5rem 4rem 0;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--line)}
+    .prices-title h2{font-size:clamp(3rem,5vw,5rem)}
+    .prices-title p{color:#8794a9;line-height:1.6;max-width:390px}
+    .price-list{display:grid;grid-template-rows:repeat(3,1fr)}
+    .price-item{padding:1.5rem 0 1.5rem 2.5rem;display:grid;grid-template-columns:1fr auto;align-items:center;gap:1rem;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+    .price-item:last-child{border-bottom:0}
+    .price-item::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(102,231,255,.07),transparent);transform:translateX(-101%);transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+    .price-item:hover::before{transform:none}
+    .price-name,.price-orbit{position:relative;z-index:1}
+    .price-name small{display:block;margin-bottom:.45rem;color:#68768d;font:9px ui-monospace,monospace;letter-spacing:.16em;text-transform:uppercase}
+    .price-name b{font-size:clamp(1.45rem,3vw,2.5rem);letter-spacing:-.05em;font-weight:580}
+    .price-name span{display:block;margin-top:.45rem;color:#8f9cb0;font-size:.78rem}
+    .price-orbit{width:150px;text-align:right}
+    .price-orbit b{font-size:1.6rem;letter-spacing:-.05em}
+    .price-orbit span{display:block;margin-top:.35rem;font-size:.72rem}
+    .up{color:#ff84a2}.down{color:#bdfd73}
+    .spark{height:2px;margin-top:1rem;background:linear-gradient(90deg,transparent,var(--spark),transparent);position:relative;box-shadow:0 0 13px var(--spark)}
+    .spark::after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:var(--spark);top:50%;left:var(--point);translate:-50% -50%;box-shadow:0 0 16px var(--spark)}
+    .constellation{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-auto-rows:260px;gap:1rem}
+    .feature{border:1px solid var(--line);border-radius:24px;background:rgba(10,14,24,.62);padding:1.6rem;position:relative;overflow:hidden;transition:transform .35s,border-color .35s}
+    .feature:hover{border-color:rgba(102,231,255,.35)}
+    .feature:nth-child(1){grid-column:span 5;grid-row:span 2}
+    .feature:nth-child(2){grid-column:span 4}
+    .feature:nth-child(3){grid-column:span 3}
+    .feature:nth-child(4){grid-column:span 7}
+    .feature:nth-child(5){grid-column:1/-1}
+    .feature .code{font:9px ui-monospace,monospace;letter-spacing:.12em;color:#8492a9}
+    .feature h3{font-size:1.35rem;letter-spacing:-.035em;margin:.7rem 0}
+    .feature p{font-size:.85rem;line-height:1.55;color:#8996aa;max-width:32rem}
+    .feature-icon{position:absolute;right:-5%;bottom:-18%;font-size:8rem;font-weight:300;color:rgba(102,231,255,.09);line-height:1;transform:rotate(-12deg)}
+    .inflation-sphere{position:absolute;left:50%;bottom:1.8rem;transform:translateX(-50%);width:190px;height:190px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#baf7ff,#6688ff 24%,#251b6d 60%,#080b13 74%);box-shadow:0 0 60px rgba(102,137,255,.23);animation:float-simple 5s ease-in-out infinite}
+    .inflation-sphere::after{content:"+7,4%";position:absolute;inset:0;display:grid;place-items:center;font-size:2rem;font-weight:650;letter-spacing:-.06em}
+    .cta-zone{padding:8rem 0 5rem}
+    .cta-panel{min-height:580px;border-radius:36px;padding:clamp(2rem,6vw,5.8rem);display:flex;align-items:flex-end;position:relative;overflow:hidden;background:
+      radial-gradient(circle at 82% 28%,rgba(199,255,122,.92) 0 3%,rgba(102,231,255,.55) 3.5% 12%,rgba(139,117,255,.5) 19%,transparent 36%),
+      linear-gradient(135deg,#14223e,#0a0e19 55%);border:1px solid rgba(255,255,255,.16);box-shadow:0 50px 130px rgba(0,0,0,.44)}
+    .cta-panel::before,.cta-panel::after{content:"";position:absolute;border:1px solid rgba(220,245,255,.28);border-radius:50%;right:-9%;top:-35%;width:720px;height:720px;transform:rotateX(65deg)}
+    .cta-panel::after{right:5%;top:-15%;width:480px;height:480px;border-style:dashed;animation:spin-a 18s linear infinite}
+    .cta-content{position:relative;z-index:2;max-width:760px}
+    .cta-content h2{font-size:clamp(3.3rem,7vw,7rem)}
+    .cta-content p{font-size:1.05rem;line-height:1.6;color:#b4c0d1;max-width:590px}
+    footer{padding:0 0 2rem}
+    .footer-inner{border-top:1px solid var(--line);padding-top:1.5rem;display:flex;justify-content:space-between;gap:2rem;color:#8f9bb0;font-size:.75rem}
+    .footer-links{display:flex;gap:1.2rem;flex-wrap:wrap}
+    .footer-links a{text-decoration:none}
+    .footer-links a:hover{color:#fff}
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.8,.2,1)}
+    .reveal.in{opacity:1;transform:none}
+    :focus-visible{outline:2px solid var(--lime);outline-offset:4px}
+    @keyframes pulse{50%{opacity:.45;transform:scale(.7)}}
+    @keyframes spin-a{to{transform:translate(-50%,-50%) rotateX(68deg) rotateZ(345deg)}}
+    @keyframes spin-b{to{transform:translate(-50%,-50%) rotateY(66deg) rotateZ(388deg)}}
+    @keyframes planet{to{rotate:1turn}}
+    @keyframes breathe{to{transform:scaleY(.82)}}
+    @keyframes scan{0%,100%{top:12%;opacity:0}15%,85%{opacity:1}50%{top:88%}}
+    @keyframes float-a{50%{transform:translateY(-18px) rotate(-7deg) rotateY(22deg) translateZ(-10px)}}
+    @keyframes float-b{50%{transform:translateY(14px) rotate(8deg) rotateY(-18deg)}}
+    @keyframes float-simple{50%{transform:translate(-50%,-10px)}}
+    @keyframes beam{0%,100%{transform:rotate(45deg) scaleY(.4);opacity:.25}50%{transform:rotate(-45deg) scaleY(1);opacity:1}}
+    @keyframes ticker-run{to{transform:translate3d(-50%,0,0)}}
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;padding-top:8rem}.hero-copy{text-align:center}.lead{margin-inline:auto}.actions{justify-content:center}.hero-visual{min-height:610px;margin-top:-2rem}.hero-foot{margin-top:0}.lab-grid{grid-template-columns:1fr}.lab-copy{text-align:center}.lab-copy p{margin-inline:auto}.periods{justify-content:center}.prices-rail{grid-template-columns:1fr}.prices-title{border-right:0;border-bottom:1px solid var(--line);padding-right:0;gap:3rem}.constellation{grid-template-columns:1fr 1fr;grid-auto-rows:240px}.constellation>.feature{grid-column:auto}.feature:nth-child(1){grid-row:span 2}.section-head{grid-template-columns:1fr}.section-head>div:first-child{display:none}
+    }
+    @media (max-width:720px){
+      .shell{width:min(100% - 1.5rem,1180px)}.nav{width:calc(100% - 1rem);top:.5rem}.nav-links>a:not(.nav-cta){display:none}.hero{padding-top:7.5rem}.hero-visual{min-height:520px;scale:.84;margin-inline:-2rem}.r1{left:5%}.r2{right:3%}.hero-foot{grid-template-columns:1fr 1fr}.hero-stat:nth-child(2){border-right:0}.hero-stat:nth-child(-n+2){border-bottom:1px solid var(--line)}.signal-grid{grid-template-columns:1fr}.signal-card{min-height:380px}.section,.lab{padding:6rem 0}.section-head{margin-bottom:2.5rem}.data-window{padding:1.1rem;min-height:470px}.data-window.is-year .chart-inner{min-width:720px}.chart{height:250px;gap:7px}.chart-labels{gap:7px}.bar::before{font-size:.5rem}.prices{padding-bottom:6rem}.prices-title{padding:3rem 0}.price-item{padding-left:0}.price-orbit{width:100px}.constellation{grid-template-columns:1fr;grid-auto-rows:minmax(220px,auto)}.constellation>.feature{grid-column:auto;grid-row:auto}.feature:nth-child(1){min-height:390px}.cta-zone{padding-top:5rem}.cta-panel{min-height:540px}.footer-inner{flex-direction:column}.coordinates{display:none}
+    }
+    @media (max-width:420px){.hero-visual{scale:.72;margin:-4rem -4rem -3rem}.receipt{width:160px}.ring-a{width:510px;height:510px}.lab-total{font-size:3.5rem}.period{padding:.55rem .7rem}.cta-panel{padding:1.6rem}.ai-note{align-items:flex-start;text-align:left}}
+    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}.reveal{opacity:1;transform:none}}
+    @media (forced-colors:active){.primary,.nav-cta{border:2px solid ButtonText}.ring,.brand-mark{border-color:CanvasText}.grain{display:none}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#content">К основному содержанию</a>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+  <noscript><p class="no-js">Основной рассказ доступен без JavaScript; интерактивный звёздный фон и переключение графика отключены.</p></noscript>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <header>
+    <nav class="nav" aria-label="Основная навигация">
+      <a class="brand" href="#top" aria-label="Чекометр — наверх"><img class="brand-mark" src="assets/chekometr-app-icon.png" alt="" width="36" height="36" decoding="async">Чекометр</a>
+      <div class="nav-links">
+        <a href="#method">Как работает</a><a href="#analytics">Аналитика</a><a href="#features">Возможности</a>
+        <a class="nav-cta" href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener">Скачать</a>
+      </div>
+    </nav>
+  </header>
+  <main id="content">
+    <section class="shell hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Финансовая обсерватория в кармане</p>
+        <h1>Увидеть деньги <span class="orbit-word">на орбите</span></h1>
+        <p class="lead">Сфотографируйте чек — <strong>Чекометр распознает каждую позицию</strong>, соберёт расходы по категориям и покажет, как меняются именно ваши цены.</p>
+        <p class="ai-note"><span>AI CORE</span> Искусственный интеллект разбирает чек до отдельных позиций, предлагает категории и связывает повторные покупки.</p>
+        <div class="actions">
+          <a class="primary" href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener">Открыть в App Store</a>
+          <a class="secondary" href="#method">Запустить наблюдение <span aria-hidden="true">↓</span></a>
+        </div>
+        <p class="trust">Бесплатно · без рекламы · только ваши данные</p>
+      </div>
+      <div class="hero-visual" role="img" aria-label="Реальный экран Чекометра с аналитикой личной инфляции в окружении световых орбит и чеков">
+        <div class="observatory" id="observatory" aria-hidden="true">
+          <div class="aura"></div><div class="ring ring-a"></div><div class="ring ring-b"></div><div class="ring ring-c"></div>
+          <article class="receipt r1"><div class="scanline"></div><p class="receipt-name">ВКУСНО И ТОЧКА</p><small>02.07.2026 · 23:20</small><hr><p><span>Картофель фри</span><b>113,00</b></p><p><span>Соус 1000 островов</span><b>54,00</b></p><p><span>Сок яблочный</span><b>159,00</b></p><p><span>Чизбургер</span><b>99,00</b></p><hr><p class="total"><span>ИТОГО</span><b>425,00 ₽</b></p></article>
+          <div class="phone"><img src="assets/chekometr-app-parser.webp" alt="Экран приложения Чекометр: проверка распознанных позиций чека перед сохранением" width="626" height="1354" decoding="async"></div>
+          <article class="receipt r2"><p class="receipt-name">КОФЕ / 19</p><small>09.07.2026 · 09:14</small><hr><p><span>Флэт уайт</span><b>320,00</b></p><p><span>Круассан</span><b>240,00</b></p><hr><p class="total"><span>ИТОГО</span><b>560,00 ₽</b></p></article>
+          <div class="coordinates">56.1322° N · 47.2519° E · SIGNAL 97%</div>
+        </div>
+      </div>
+      <div class="hero-foot" aria-label="Ключевые возможности">
+        <div class="hero-stat"><b>1 кадр</b><span>чтобы добавить целый чек</span></div><div class="hero-stat"><b>до крупицы</b><span>точность структуры каждой позиции</span></div><div class="hero-stat"><b>AI внутри</b><span>распознаёт и распределяет покупки</span></div><div class="hero-stat"><b>Своя инфляция</b><span>рост цен именно в вашей корзине</span></div>
+      </div>
+    </section>
+
+    <div class="signal-ticker" role="region" aria-label="Возможности Чекометра">
+      <div class="ticker-track" aria-hidden="true">
+        <div class="ticker-sequence"><span>Чек за один кадр</span><span>AI распознаёт позиции</span><span>Категории автоматически</span><span>Личная инфляция</span><span>Динамика цен</span><span>Долги под контролем</span><span>Чужие траты — отдельно</span><span>История каждой покупки</span><span>Без рекламы</span><span>Бесплатный тариф</span></div>
+        <div class="ticker-sequence"><span>Чек за один кадр</span><span>AI распознаёт позиции</span><span>Категории автоматически</span><span>Личная инфляция</span><span>Динамика цен</span><span>Долги под контролем</span><span>Чужие траты — отдельно</span><span>История каждой покупки</span><span>Без рекламы</span><span>Бесплатный тариф</span></div>
+      </div>
+    </div>
+
+    <section class="shell section" id="method">
+      <div class="section-head reveal"><div><span class="kicker">Сигнал / 001</span></div><div><h2>Бумага становится данными.</h2><p class="section-intro">Без ручного переноса каждой покупки. Чек проходит три ясных этапа — и появляется в вашей финансовой картине.</p></div></div>
+      <div class="signal-grid reveal">
+        <article class="signal-card"><div class="signal-no"><span>01 / ЗАХВАТ</span><span>0,2 s</span></div><div class="signal-viz"><div class="aperture"></div></div><h3>Снимите чек</h3><p>Камерой или из медиатеки. Даже длинный чек превращается в аккуратный список покупок.</p></article>
+        <article class="signal-card"><div class="signal-no"><span>02 / AI-РАСПОЗНАВАНИЕ</span><span>AI CORE</span></div><div class="signal-viz"><div class="beam"></div></div><h3>AI разбирает чек</h3><p>Модель распознаёт названия, цены и количество, предлагает категории. Вам остаётся проверить результат и при необходимости исключить чужую позицию.</p></article>
+        <article class="signal-card"><div class="signal-no"><span>03 / КАРТА</span><span>LIVE</span></div><div class="signal-viz"><div class="dots" aria-hidden="true"><i style="--o:.1"></i><i style="--o:.8"></i><i style="--o:.3"></i><i style="--o:1"></i><i style="--o:.5"></i><i style="--o:.2"></i><i style="--o:.9"></i><i style="--o:.6"></i><i style="--o:.1"></i><i style="--o:.7"></i><i style="--o:.4"></i><i style="--o:.9"></i><i style="--o:.3"></i><i style="--o:.6"></i><i style="--o:1"></i><i style="--o:.2"></i><i style="--o:.8"></i><i style="--o:.1"></i><i style="--o:.5"></i><i style="--o:1"></i><i style="--o:.3"></i></div></div><h3>Наблюдайте закономерности</h3><p>Категории, топ магазинов, лимиты и динамика — от общей суммы до цены конкретного продукта.</p></article>
+      </div>
+    </section>
+
+    <section class="lab" id="analytics">
+      <div class="shell lab-grid">
+        <div class="lab-copy reveal"><span class="kicker">Телескоп / 002</span><h2>Ваша инфляция. Не средняя.</h2><div class="periods" role="tablist" aria-label="Период аналитики"><button class="period" id="tab-month" type="button" role="tab" aria-selected="true" aria-controls="analytics-panel" data-period="month">Месяц</button><button class="period" id="tab-quarter" type="button" role="tab" aria-selected="false" aria-controls="analytics-panel" tabindex="-1" data-period="quarter">Квартал</button><button class="period" id="tab-year" type="button" role="tab" aria-selected="false" aria-controls="analytics-panel" tabindex="-1" data-period="year">Год</button></div><div class="lab-total" id="labTotal" aria-live="polite">72 480 <small>₽</small></div><div class="change" id="labChange">↗ 7,4% личная инфляция</div><p>Чекометр сопоставляет повторяющиеся товары и показывает реальную динамику цен вашей корзины — молока, кофе, бытовых вещей, а не абстрактного индекса.</p></div>
+        <div class="data-window reveal" id="analytics-panel" role="tabpanel" aria-labelledby="tab-month"><div class="window-head"><span id="windowMetric">Расходы по неделям</span><span id="windowPeriod">Июль · 2026</span></div><div class="chart-viewport"><div class="chart-inner"><div class="chart" id="chart" aria-hidden="true"></div><div class="chart-labels" id="chartLabels" aria-hidden="true"></div></div></div></div>
+      </div>
+    </section>
+
+    <section class="shell prices" aria-labelledby="prices-title">
+      <div class="prices-rail reveal">
+        <div class="prices-title"><div><span class="kicker">Спектр цен / 002.1</span><h2 id="prices-title">Каждый товар оставляет след.</h2></div><p>Повторяющиеся покупки соединяются во времени. Так видна не только общая сумма, но и момент, когда привычный продукт стал стоить иначе.</p></div>
+        <div class="price-list">
+          <article class="price-item"><div class="price-name"><small>Продукты · 6 наблюдений</small><b>Молоко 3,2%</b><span>109,90 ₽ → 119,90 ₽</span><div class="spark" style="--spark:#ff84a2;--point:82%"></div></div><div class="price-orbit"><b>+9,1%</b><span class="up">подорожало</span></div></article>
+          <article class="price-item"><div class="price-name"><small>Бакалея · 4 наблюдения</small><b>Паста</b><span>199,90 ₽ → 189,90 ₽</span><div class="spark" style="--spark:#bdfd73;--point:61%"></div></div><div class="price-orbit"><b>−5,0%</b><span class="down">подешевело</span></div></article>
+          <article class="price-item"><div class="price-name"><small>Кофе · 8 наблюдений</small><b>Флэт уайт</b><span>290 ₽ → 320 ₽</span><div class="spark" style="--spark:#a991ff;--point:74%"></div></div><div class="price-orbit"><b>+10,3%</b><span class="up">подорожало</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell section" id="features">
+      <div class="section-head reveal"><div><span class="kicker">Созвездие / 003</span></div><div><h2>Вся картина. И каждая точка.</h2><p class="section-intro">Чекометр соединяет повседневные траты в систему, которой легко пользоваться каждый день.</p></div></div>
+      <div class="constellation">
+        <article class="feature reveal"><span class="code">OBS·INFLATION</span><h3>Личная инфляция</h3><p>Смотрите, какие товары дорожают и дешевеют именно в вашей корзине.</p><div class="inflation-sphere" aria-hidden="true"></div></article>
+        <article class="feature reveal"><span class="code">AI·CATEGORIZE</span><h3>AI-категоризация</h3><p>AI предлагает категорию каждой позиции — от продуктов и транспорта до ваших собственных разделов.</p><div class="feature-icon" aria-hidden="true">AI</div></article>
+        <article class="feature reveal"><span class="code">PRICE·TRACE</span><h3>История цен</h3><p>Сравнивайте стоимость одной и той же покупки между чеками и сразу замечайте подорожание или снижение цены.</p><div class="feature-icon" aria-hidden="true">∆</div></article>
+        <article class="feature reveal"><span class="code">DEBT·MINE</span><h3>Только моё</h3><p>Если вы заплатили за другого, Чекометр отследит возврат долга и не включит чужую позицию в ваши траты и личную инфляцию.</p><div class="feature-icon" aria-hidden="true">↔</div></article>
+        <article class="feature reveal"><span class="code">SPEND·REAL</span><h3>Реальные траты</h3><p>Не просто сумма списания: видно, сколько и на что вы потратили — до каждой позиции, категории и магазина.</p><div class="feature-icon" aria-hidden="true">₽</div></article>
+      </div>
+    </section>
+
+    <section class="shell cta-zone">
+      <div class="cta-panel reveal"><div class="cta-content"><span class="kicker">Наблюдение начинается сейчас</span><h2>Первый чек уже многое расскажет.</h2><p>Начните бесплатно. Никакой рекламы — только ваша история покупок, расходов и цен.</p><div class="actions"><a class="primary" href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener">Скачать Чекометр</a></div></div></div>
+    </section>
+  </main>
+  <footer><div class="shell footer-inner"><span>© 2026 Чекометр · support@chekometr.ru</span><div class="footer-links"><a href="/terms">Условия</a><a href="/consent">Согласие</a><a href="/privacy">Конфиденциальность</a><a href="/contacts">Контакты</a><a href="#top">Наверх ↑</a></div></div></footer>
+  <script>
+    (()=>{
+      const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const canvas=document.querySelector('#starfield'),ctx=canvas.getContext('2d',{alpha:true});
+      let w=0,h=0,dpr=1,stars=[],frame=0,active=true;
+      function resize(){dpr=Math.min(devicePixelRatio||1,1.6);w=innerWidth;h=innerHeight;canvas.width=w*dpr;canvas.height=h*dpr;canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0);const count=Math.min(240,Math.max(80,Math.floor(w*h/8500)));stars=Array.from({length:count},()=>({x:(Math.random()-.5)*w,y:(Math.random()-.5)*h,z:Math.random()*w+1,p:Math.random()*.7+.25}));}
+      function draw(){if(!active)return;ctx.clearRect(0,0,w,h);ctx.save();ctx.translate(w/2,h/2);for(const s of stars){s.z-=reduced?0:.32;if(s.z<1)s.z=w;const k=170/s.z,x=s.x*k,y=s.y*k;if(Math.abs(x)>w/2||Math.abs(y)>h/2){s.z=w;continue}const size=Math.max(.25,(1-s.z/w)*2.2);ctx.globalAlpha=Math.min(.75,(1-s.z/w)*s.p);ctx.fillStyle=s.p>.76?'#baf8ff':'#879ac6';ctx.beginPath();ctx.arc(x,y,size,0,Math.PI*2);ctx.fill()}ctx.restore();if(!reduced)frame=requestAnimationFrame(draw)}
+      resize();draw();addEventListener('resize',resize,{passive:true});document.addEventListener('visibilitychange',()=>{active=!document.hidden;if(active&&!reduced)draw();else cancelAnimationFrame(frame)});
+      addEventListener('pointermove',e=>{document.documentElement.style.setProperty('--mx',e.clientX+'px');document.documentElement.style.setProperty('--my',e.clientY+'px')},{passive:true});
+      const reveal=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');reveal.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>reveal.observe(el));
+      const yearAmounts=[61340,58220,64880,70410,63240,79140,72480,68260,66780,75940,78360,83340];
+      const quarterAmounts=yearAmounts.slice(4,7);
+      const sum=values=>values.reduce((total,value)=>total+value,0);
+      const formatTotal=value=>new Intl.NumberFormat('ru-RU').format(value).replace(/\u00a0/g,' ');
+      const compact=value=>(value/1000).toLocaleString('ru-RU',{minimumFractionDigits:1,maximumFractionDigits:1})+'k';
+      const height=value=>Math.round(value/950);
+      const datasets={month:{total:formatTotal(yearAmounts[6]),change:'↗ 7,4% личная инфляция',period:'Июль · 2026',metric:'Расходы по неделям',labels:['1–6','7–13','14–20','21–27','28–31'],values:[38,62,49,82,67],rub:['9,8k','16,1k','12,7k','21,2k','12,6k']},quarter:{total:formatTotal(sum(quarterAmounts)),change:'↗ 4,8% за квартал',period:'Май — Июль · 2026',metric:'Расходы по месяцам',labels:['Май','Июнь','Июль'],values:quarterAmounts.map(height),rub:quarterAmounts.map(compact)},year:{total:formatTotal(sum(yearAmounts)),change:'↗ 9,1% за год',period:'Январь — Декабрь · 2026',metric:'Расходы по месяцам',labels:['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'],values:yearAmounts.map(height),rub:yearAmounts.map(compact)}};
+      const chart=document.querySelector('#chart'),labels=document.querySelector('#chartLabels'),total=document.querySelector('#labTotal'),change=document.querySelector('#labChange'),periodLabel=document.querySelector('#windowPeriod'),metricLabel=document.querySelector('#windowMetric'),analyticsPanel=document.querySelector('#analytics-panel');
+      function render(key){const d=datasets[key];total.innerHTML=d.total+' <small>₽</small>';change.textContent=d.change;periodLabel.textContent=d.period;metricLabel.textContent=d.metric;analyticsPanel.classList.toggle('is-year',key==='year');chart.innerHTML=d.values.map((v,i)=>`<div class="bar-wrap"><div class="bar" style="--h:1%" data-v="${d.rub[i]}" data-height="${v}"></div></div>`).join('');labels.innerHTML=d.labels.map(v=>`<span>${v}</span>`).join('');requestAnimationFrame(()=>document.querySelectorAll('.bar').forEach((bar,i)=>setTimeout(()=>bar.style.setProperty('--h',bar.dataset.height+'%'),reduced?0:i*45)))}
+      document.querySelectorAll('.period').forEach((b,i,all)=>{b.addEventListener('click',()=>{all.forEach(x=>{x.setAttribute('aria-selected','false');x.tabIndex=-1});b.setAttribute('aria-selected','true');b.tabIndex=0;document.querySelector('#analytics-panel').setAttribute('aria-labelledby',b.id);render(b.dataset.period)});b.addEventListener('keydown',e=>{let n;if(e.key==='Home')n=0;else if(e.key==='End')n=all.length-1;else if(['ArrowLeft','ArrowRight'].includes(e.key))n=(i+(e.key==='ArrowRight'?1:-1)+all.length)%all.length;else return;e.preventDefault();all[n].focus();all[n].click()})});render('month');
+      const progress=document.querySelector('#scrollProgress');let scrollTick=false;
+      addEventListener('scroll',()=>{if(scrollTick)return;scrollTick=true;requestAnimationFrame(()=>{const max=document.documentElement.scrollHeight-innerHeight;progress.style.transform=`scaleX(${max?scrollY/max:0})`;scrollTick=false})},{passive:true});
+      if(!reduced&&matchMedia('(pointer:fine)').matches){
+        document.querySelectorAll('.feature').forEach(card=>{card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`perspective(700px) rotateX(${-y*4}deg) rotateY(${x*5}deg) translateY(-5px)`});card.addEventListener('pointerleave',()=>card.style.transform='')});
+        document.querySelectorAll('.primary,.nav-cta').forEach(button=>{button.addEventListener('pointermove',e=>{const r=button.getBoundingClientRect();button.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.08}px,${(e.clientY-r.top-r.height/2)*.08-2}px)`});button.addEventListener('pointerleave',()=>button.style.transform='')});
+      }
+    })();
+  </script>
+  <!--
+    REVISION LOG
+    Pass 1 — structure / visual: replaced the SVG noise with a CSS-only optical grain; added a full price-spectrum chapter with product-level traces; strengthened desktop/tablet/mobile hierarchy and spatial rhythm.
+    Pass 2 — motion / interaction: added staggered data morphing, a spectral scroll-progress beam, fine-pointer magnetic CTAs and subtle perspective response on feature cards; all enhancements respect reduced-motion preference.
+    Pass 3 — responsive / accessibility / performance: introduced roving keyboard tabs with Home/End support and a named tab panel, clearer low-contrast metadata, 44px touch targets, noscript messaging, forced-colors treatment and content-visibility containment for below-fold chapters; aligned CTA copy and links to official product claims and App Store listing.
+    Pass 4 — focused product edit: removed the decorative receipt-art interlude, replaced the simulated hero UI with the official App Store analytics screen, promoted AI to hero/method/features copy, added a semantic motion ticker, and corrected the yearly chart to January–December with a mobile scroll viewport.
+    Pass 5 — data consistency: introduced one annual amount series as the source of truth; the quarter now derives May–July from that series, July matches the monthly view, and both quarter/year totals are calculated from their visible bars.
+    Pass 6 — stacking and feature layout: raised the persistent header above the main stacking context, rebuilt the feature constellation on a 12-column grid, widened the AI card and shortened its copy so content stays readable without clipping across desktop, tablet and mobile.
+    Pass 7 — CTA focal point: shifted the lime/cyan radial center to the right so it no longer collides with the headline while preserving the orbital composition.
+    Pass 8 — product proof: replaced utility-led hero statistics with measurable structure accuracy, AI-assisted purchase processing and personal inflation tracking.
+    Pass 9 — feature value: replaced weak privacy/export claims with price history and real-spending visibility; rewrote “Только моё” around debt repayment tracking and exclusion from personal spending and inflation.
+    Pass 10 — brand and hero layering: integrated the supplied App Store icon into the navigation and favicon, then flattened the observatory layer stack so orbit paths remain behind the real app screen.
+    Pass 11 — platform icons: declared explicit favicon sizing and added the supplied 180px Apple touch icon for iPhone and iPad home-screen bookmarks.
+    Pass 12 — document system: connected the landing page to redesigned local privacy, terms, consent and contact pages that share the same cosmic visual language.
+    Pass 13 — production refinement: removed the 3D compositor path around the real app screen, updated Cheboksary coordinates and product proof copy, stabilized legal-page navigation, and rebuilt the capability ticker as a seamless ten-item loop.
+    Pass 14 — hero product alignment: replaced the analytics screen with the real receipt-parser review screen so the visual directly supports the scan-and-recognize promise in the opening copy.
+    Pass 15 — scene continuity: synchronized the primary flying receipt with the parser screen's store, four positions and 425-ruble total while preserving the secondary coffee receipt as a separate purchase.
+  -->
+</body>
+</html>
