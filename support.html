@@ -1,267 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#05070d">
+  <meta name="description" content="Поддержка пользователей Чекометра: вопросы по аккаунту, подписке и удалению данных.">
+  <link rel="canonical" href="https://chekometr.ru/support">
+  <link rel="icon" type="image/png" sizes="256x256" href="assets/chekometr-app-icon.png"><link rel="apple-touch-icon" sizes="180x180" href="assets/chekometr-apple-touch-icon.png"><link rel="stylesheet" href="assets/legal.css"><script src="assets/legal.js" defer></script>
   <title>Поддержка — Чекометр</title>
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:     #08091C;
-      --card:   #0F1628;
-      --card2:  #151E34;
-      --blue:   #4B6BFB;
-      --blue-l: #7090FF;
-      --green:  #34C77B;
-      --white:  #FFFFFF;
-      --muted:  #64718A;
-      --muted2: #9AA3BB;
-      --border: rgba(255,255,255,.07);
-      --display: 'Space Grotesk', sans-serif;
-      --body:    'Inter', sans-serif;
-    }
-
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--white);
-      font-family: var(--body);
-      line-height: 1.7;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: -20% -10% auto -10%;
-      height: 520px;
-      background:
-        radial-gradient(circle at 24% 20%, rgba(75,107,251,.20), transparent 34%),
-        radial-gradient(circle at 82% 22%, rgba(52,199,123,.10), transparent 28%);
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    nav {
-      position: sticky; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 16px max(5vw, calc((100vw - 1240px) / 2));
-      background: rgba(8,9,28,.85);
-      backdrop-filter: blur(24px);
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-
-    .logo {
-      display: flex; align-items: center; gap: 10px;
-      font-family: var(--display); font-weight: 700; font-size: 18px;
-      color: var(--white); text-decoration: none;
-    }
-
-    .logo-icon {
-      width: 34px; height: 34px; border-radius: 9px;
-      background: linear-gradient(135deg,#2F72F8,#5B4DFF);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; font-weight: 700; font-family: var(--display); color: #fff;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 26px;
-      align-items: center;
-      font-family: var(--display);
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .nav-links a {
-      color: var(--muted2);
-      text-decoration: none;
-      transition: color .2s;
-    }
-
-    .nav-links a:hover { color: var(--white); }
-
-    .nav-dl {
-      background: var(--blue); color: #fff; border: none;
-      padding: 9px 20px; border-radius: 50px;
-      font-family: var(--display); font-weight: 600; font-size: 14px;
-      text-decoration: none;
-    }
-
-    main {
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 86px 32px 80px;
-    }
-
-    .hero-mini {
-      margin-bottom: 34px;
-    }
-
-    .eyebrow {
-      display: block;
-      font-family: var(--display);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--blue-l);
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-family: var(--display);
-      font-size: clamp(38px, 5vw, 68px);
-      line-height: 1.05;
-      letter-spacing: -1.2px;
-      max-width: 760px;
-      margin-bottom: 20px;
-    }
-
-    .lead {
-      color: var(--muted2);
-      max-width: 680px;
-      font-size: 17px;
-    }
-
-    .doc-card {
-      background: linear-gradient(180deg, rgba(21,30,52,.86), rgba(15,22,40,.86));
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      padding: clamp(24px, 5vw, 54px);
-      box-shadow: 0 30px 80px rgba(0,0,0,.28);
-    }
-h2 {
-      font-family: var(--display);
-      font-size: 26px;
-      line-height: 1.2;
-      letter-spacing: -.4px;
-      margin: 34px 0 12px;
-    }
-
-    h2:first-child { margin-top: 0; }
-
-    p, li {
-      color: var(--muted2);
-      font-size: 16px;
-    }
-
-    p + p { margin-top: 14px; }
-    ul { padding-left: 22px; margin-top: 10px; }
-    li + li { margin-top: 8px; }
-
-    a { color: var(--blue-l); }
-    .quick-links {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin: 30px 0;
-    }
-
-    .quick-links a {
-      display: block;
-      padding: 18px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid var(--border);
-      color: var(--white);
-      text-decoration: none;
-      font-family: var(--display);
-      font-weight: 600;
-    }
-
-    footer {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 30px 32px 50px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .foot-links {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .foot-links a {
-      color: var(--muted2);
-      text-decoration: none;
-    }
-
-    @media (max-width: 760px) {
-      nav { padding: 14px 22px; }
-      .nav-links { display: none; }
-      main { padding: 56px 20px 60px; }
-      .quick-links { grid-template-columns: 1fr; }
-      footer { flex-direction: column; align-items: flex-start; padding-left: 20px; padding-right: 20px; }
-    }
-</style>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Чекометр">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:url" content="https://chekometr.ru/support">
+  <meta property="og:title" content="Поддержка — Чекометр">
+  <meta property="og:description" content="Вопросы по аккаунту, подписке и удалению данных — как связаться с поддержкой Чекометра.">
+  <meta property="og:image" content="https://chekometr.ru/assets/chekometr-app-icon.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Поддержка — Чекометр">
+  <meta name="twitter:description" content="Вопросы по аккаунту, подписке и удалению данных — как связаться с поддержкой Чекометра.">
+  <meta name="twitter:image" content="https://chekometr.ru/assets/chekometr-app-icon.png">
 </head>
 <body>
-<nav>
-  <a class="logo" href="./index.html"><span class="logo-icon">Ч</span><span>Чекометр</span></a>
-  <div class="nav-links">
-    <a href="./index.html#what">Как работает</a>
-    <a href="./privacy">Конфиденциальность</a>
-    <a href="./terms">Условия</a>
-    <a href="./support">Поддержка</a>
-  </div>
-  <a class="nav-dl" href="./index.html#download">iPhone</a>
-</nav>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7Z0QMZLKXD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7Z0QMZLKXD');
+  </script>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111971483', 'ym');
 
-<main>
-  <section class="hero-mini">
-    <span class="eyebrow">Помощь пользователям</span>
-    <h1>Поддержка</h1>
-    <p class="lead">Если возник вопрос по приложению, аккаунту, подписке или удалению данных, напишите нам.</p>
-  </section>
-
-  <div class="quick-links">
-    <a href="./privacy">Политика конфиденциальности</a>
-    <a href="./terms">Условия использования</a>
-    <a href="./support">Поддержка</a>
-  </div>
-
-  <article class="doc-card">
-
-    <h2>Как связаться</h2>
-    <p>Email поддержки: <a href="mailto:support@chekometr.ru">support@chekometr.ru</a></p>
-    <p>В обращении полезно указать модель устройства, версию iOS, версию приложения, описание проблемы и скриншот, если он помогает понять ситуацию.</p>
-
-    <h2>Удаление аккаунта</h2>
-    <p>Чтобы запросить удаление аккаунта и связанных данных, используйте соответствующий раздел в приложении или напишите на <a href="mailto:support@chekometr.ru">support@chekometr.ru</a> с темой «Удаление аккаунта».</p>
-
-    <h2>Вопросы по подписке</h2>
-    <p>Подписки и покупки оформляются через App Store. Управлять подпиской, отменой и возвратами можно в настройках Apple ID и App Store.</p>
-
-    <h2>Полезные ссылки</h2>
-    <ul>
-      <li><a href="./privacy">Политика конфиденциальности</a></li>
-      <li><a href="./terms">Условия использования</a></li>
-    </ul>
-
-  </article>
-</main>
-<footer>
-  <div>© 2026 Чекометр</div>
-  <div class="foot-links">
-    <a href="./privacy">Конфиденциальность</a>
-    <a href="./terms">Условия</a>
-    <a href="./support">Поддержка</a>
-    <a href="mailto:support@chekometr.ru">support@chekometr.ru</a>
-  </div>
-</footer>
+    ym(111971483, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111971483" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  <a class="skip" href="#document">К поддержке</a><div class="progress" aria-hidden="true"></div>
+  <nav class="nav" aria-label="Основная навигация"><a class="brand" href="/"><img src="assets/chekometr-app-icon.png" alt="" width="36" height="36">Чекометр</a><div class="nav-actions"><a href="/support" aria-current="page">Поддержка</a><a class="download" href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener">Скачать</a></div></nav>
+  <main class="shell legal-main">
+    <section class="legal-hero"><span class="kicker">Поддержка / 005</span><div><div class="lang-block" data-lang="ru"><h1>Мы на связи.</h1><p>Если возник вопрос по приложению, аккаунту, подписке или удалению данных — напишите нам.</p></div><div class="lang-block" data-lang="en"><h1>We're here to help.</h1><p>Questions about the app, your account, subscription, or data deletion — write to us.</p></div></div></section>
+    <div class="document-layout">
+      <aside class="rail" aria-label="Навигация по документам"><div class="lang-switch" aria-label="Language"><button class="ls-btn" type="button" data-l="ru">RU</button><button class="ls-btn" type="button" data-l="en">EN</button></div><div class="doc-nav"><a href="/terms">Условия</a><a href="/consent">Согласие</a><a href="/privacy">Конфиденциальность</a><a href="/contacts">Контакты</a><a href="/support" aria-current="page">Поддержка</a></div></aside>
+      <article class="document" id="document">
+        <div class="lang-block" data-lang="ru">
+          <p class="legal-meta">Отвечаем в течение 1–2 рабочих дней</p>
+          <h2>Как связаться</h2>
+          <p>Email поддержки: <a href="mailto:support@chekometr.ru">support@chekometr.ru</a></p>
+          <p>В обращении полезно указать модель устройства, версию iOS, версию приложения, описание проблемы и скриншот, если он помогает понять ситуацию.</p>
+          <h2>Удаление аккаунта</h2>
+          <p>Чтобы запросить удаление аккаунта и связанных данных, используйте соответствующий раздел в приложении либо напишите на <a href="mailto:support@chekometr.ru">support@chekometr.ru</a> с темой «Удаление аккаунта».</p>
+          <h2>Вопросы по подписке</h2>
+          <p>Подписки и покупки оформляются через App Store. Управлять подпиской, отменой и возвратами можно в настройках Apple ID и App Store.</p>
+          <h2>Полезные ссылки</h2>
+          <ul><li><a href="/privacy">Политика конфиденциальности</a></li><li><a href="/terms">Условия использования</a></li><li><a href="/contacts">Контакты и реквизиты</a></li></ul>
+        </div>
+        <div class="lang-block" data-lang="en">
+          <p class="legal-meta">We respond within 1–2 business days</p>
+          <h2>How to Contact Us</h2>
+          <p>Support email: <a href="mailto:support@chekometr.ru">support@chekometr.ru</a></p>
+          <p>It helps to include your device model, iOS version, app version, a description of the issue, and a screenshot if it clarifies the situation.</p>
+          <h2>Account Deletion</h2>
+          <p>To request deletion of your account and related data, use the corresponding section in the app, or email <a href="mailto:support@chekometr.ru">support@chekometr.ru</a> with the subject "Account Deletion".</p>
+          <h2>Subscription Questions</h2>
+          <p>Subscriptions and purchases are processed through the App Store. You can manage your subscription, cancellation, and refunds in your Apple ID and App Store settings.</p>
+          <h2>Useful Links</h2>
+          <ul><li><a href="/privacy">Privacy Policy</a></li><li><a href="/terms">Terms of Use</a></li><li><a href="/contacts">Contacts and Legal Details</a></li></ul>
+        </div>
+      </article>
+    </div>
+  </main>
+  <footer class="footer"><div class="shell footer-inner"><span>© 2026 Чекометр · support@chekometr.ru</span><div class="footer-links"><a href="/terms">Условия</a><a href="/consent">Согласие</a><a href="/privacy">Конфиденциальность</a><a href="/contacts">Контакты</a><a href="/support">Поддержка</a></div></div></footer>
 </body>
 </html>
