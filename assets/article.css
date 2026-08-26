@@ -50,6 +50,14 @@ h1{margin:0 0 1rem;font-size:clamp(2.2rem,5vw,3.2rem);line-height:1.05;letter-sp
 .prose a{color:var(--cyan);text-decoration-color:rgba(102,231,255,.4)}
 .prose a:hover{text-decoration-color:currentColor}
 
+.glossary{display:grid;gap:1.6rem;margin:2rem 0}
+.glossary-item{padding-bottom:1.6rem;border-bottom:1px solid var(--line)}
+.glossary-item:last-child{border-bottom:0}
+.glossary-item dt{font-size:1.15rem;font-weight:640;color:var(--ink);letter-spacing:-.01em;margin-bottom:.5rem}
+.glossary-item dd{margin:0;color:#c3ceE0;font-size:.98rem;line-height:1.65}
+.glossary-item dd a{color:var(--cyan)}
+.glossary-item .more{display:inline-block;margin-top:.5rem;font-size:.85rem}
+
 .callout{margin:2rem 0;padding:1.3rem 1.5rem;border:1px solid var(--line);border-radius:16px;background:rgba(102,231,255,.05)}
 .callout-label{display:block;margin:0 0 .5rem;font:750 .68rem ui-monospace,SFMono-Regular,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan)}
 .callout p{margin:0;font-size:.94rem;color:#c3ceE0}
