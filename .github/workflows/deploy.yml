@@ -2,6 +2,8 @@ name: Deploy to production
 
 on:
   workflow_dispatch: {}
+  push:
+    branches: [main]
 
 jobs:
   deploy:
@@ -19,11 +21,8 @@ jobs:
         run: ssh-keyscan -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Sync static files to server
-        # No --delete: the server currently has files (e.g. img/) not yet
-        # tracked in this repo. Add --delete only after reconciling those,
-        # otherwise this step will silently erase them.
         run: |
-          rsync -avz \
+          rsync -avz --delete \
             --exclude '.git' \
             --exclude '.github' \
             --exclude '.gitignore' \
