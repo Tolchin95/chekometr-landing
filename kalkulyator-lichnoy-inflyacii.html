@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#05070d">
+  <meta name="description" content="Бесплатный калькулятор личной инфляции: посчитайте, как выросли цены именно на ваши покупки, а не на усреднённую корзину Росстата.">
+  <link rel="canonical" href="https://chekometr.ru/kalkulyator-lichnoy-inflyacii">
+  <link rel="icon" type="image/png" sizes="256x256" href="assets/chekometr-app-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/chekometr-apple-touch-icon.png">
+  <link rel="stylesheet" href="assets/article.css">
+  <link rel="stylesheet" href="assets/calculator.css">
+  <title>Калькулятор личной инфляции — Чекометр</title>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Чекометр">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:url" content="https://chekometr.ru/kalkulyator-lichnoy-inflyacii">
+  <meta property="og:title" content="Калькулятор личной инфляции">
+  <meta property="og:description" content="Бесплатный калькулятор: посчитайте, как выросли цены именно на ваши покупки, а не на усреднённую корзину Росстата.">
+  <meta property="og:image" content="https://chekometr.ru/assets/chekometr-app-icon.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Калькулятор личной инфляции">
+  <meta name="twitter:description" content="Бесплатный калькулятор: посчитайте, как выросли цены именно на ваши покупки, а не на усреднённую корзину Росстата.">
+  <meta name="twitter:image" content="https://chekometr.ru/assets/chekometr-app-icon.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Калькулятор личной инфляции",
+    "url": "https://chekometr.ru/kalkulyator-lichnoy-inflyacii",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any (веб-браузер)",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" },
+    "description": "Бесплатный веб-калькулятор личной инфляции по собственным покупкам."
+  }
+  </script>
+</head>
+<body>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7Z0QMZLKXD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7Z0QMZLKXD');
+  </script>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111971483', 'ym');
+
+    ym(111971483, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111971483" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  <a class="skip" href="#content">К калькулятору</a>
+  <header>
+    <nav class="nav" aria-label="Основная навигация">
+      <a class="brand" href="/" aria-label="Чекометр — на главную"><img class="brand-mark" src="assets/chekometr-app-icon.png" alt="" width="36" height="36" decoding="async">Чекометр</a>
+      <div class="nav-links">
+        <a href="/#method">Как работает</a><a href="/#analytics">Аналитика</a><a href="/#features">Возможности</a>
+        <a class="nav-cta" href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener">Скачать</a>
+      </div>
+    </nav>
+  </header>
+  <main id="content">
+    <article class="article-shell">
+      <span class="kicker">Инструмент</span>
+      <h1>Калькулятор личной инфляции</h1>
+      <p class="dek">Внесите товары, которые покупаете регулярно, их старую и новую цену и примерные месячные траты на каждый — калькулятор посчитает средневзвешенный рост цен по вашей собственной корзине. Как устроена формула — в статье <a href="/lichnaya-inflyaciya">«Личная инфляция: что это и как её посчитать»</a>.</p>
+
+      <div class="tool" id="calc">
+        <table class="tool-table">
+          <thead>
+            <tr><th>Товар</th><th>Старая цена, ₽</th><th>Новая цена, ₽</th><th>Траты в месяц, ₽</th><th></th></tr>
+          </thead>
+          <tbody id="calcRows"></tbody>
+        </table>
+        <div class="tool-actions">
+          <button type="button" class="tool-add" id="addRow">+ Добавить товар</button>
+          <button type="button" class="tool-calc" id="calcBtn">Посчитать</button>
+        </div>
+        <div class="tool-result" id="result" hidden aria-live="polite">
+          <div class="tool-result-figure"><b id="resultValue">0%</b><span>личная инфляция по указанным товарам</span></div>
+          <p class="tool-hint" id="resultHint"></p>
+          <div class="tool-breakdown" id="breakdown"></div>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>Расчёт выполняется прямо в вашем браузере — введённые цены и названия товаров не передаются на сервер Чекометра и нигде не сохраняются. Закроете страницу — расчёт исчезнет.</p>
+        <p>Чем больше регулярных покупок вы внесёте и чем точнее укажете месячные траты на каждую, тем осмысленнее результат: одна-две позиции дадут случайное число, а не устойчивую картину.</p>
+
+        <div class="cta-inline">
+          <p>Чекометр делает то же самое автоматически по вашим чекам — без ручного ввода цен каждый месяц.</p>
+          <a href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener">Скачать Чекометр</a>
+        </div>
+
+        <div class="disclaimer">
+          <span class="disclaimer-label">Важно</span>
+          <p>Результат калькулятора — личный расчёт по введённым вами данным, а не официальная статистика и не финансовая консультация. Точность зависит от того, насколько введённые товары и суммы отражают ваши реальные регулярные траты.</p>
+        </div>
+      </div>
+
+      <div class="related">
+        <h2>Дальше</h2>
+        <div class="related-links">
+          <a href="/lichnaya-inflyaciya">Как считается личная инфляция — методология и ограничения</a>
+          <a href="/#analytics">Посмотреть аналитику личной инфляции в Чекометре</a>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer><div class="footer-inner"><span>© 2026 Чекометр · support@chekometr.ru</span><div class="footer-links"><a href="/terms">Условия</a><a href="/consent">Согласие</a><a href="/privacy">Конфиденциальность</a><a href="/contacts">Контакты</a><a href="/support">Поддержка</a></div></div></footer>
+  <script>
+    (()=>{
+      const rowsEl = document.querySelector('#calcRows');
+      const addBtn = document.querySelector('#addRow');
+      const calcBtn = document.querySelector('#calcBtn');
+      const resultEl = document.querySelector('#result');
+      const resultValueEl = document.querySelector('#resultValue');
+      const resultHintEl = document.querySelector('#resultHint');
+      const breakdownEl = document.querySelector('#breakdown');
+
+      const placeholders = [
+        ['Молоко 3,2%', '109.90', '119.90', '600'],
+        ['Кофе в зёрнах', '650', '720', '1300'],
+        ['', '', '', '']
+      ];
+
+      function addRow(values){
+        const tr = document.createElement('tr');
+        tr.className = 'tool-row';
+        const v = values || ['','','',''];
+        tr.innerHTML = `
+          <td data-label="Товар"><input type="text" class="f-name ym-disable-keys" placeholder="${v[0] || 'Например, хлеб'}" aria-label="Название товара"></td>
+          <td data-label="Старая цена, ₽"><input type="text" inputmode="decimal" class="f-old ym-disable-keys" placeholder="${v[1] || '0'}" aria-label="Старая цена, рубли"></td>
+          <td data-label="Новая цена, ₽"><input type="text" inputmode="decimal" class="f-new ym-disable-keys" placeholder="${v[2] || '0'}" aria-label="Новая цена, рубли"></td>
+          <td data-label="Траты в месяц, ₽"><input type="text" inputmode="decimal" class="f-spend ym-disable-keys" placeholder="${v[3] || '0'}" aria-label="Траты в месяц на этот товар, рубли"></td>
+          <td><button type="button" class="rm" aria-label="Удалить строку">✕</button></td>
+        `;
+        tr.querySelector('.rm').addEventListener('click', () => { tr.remove(); });
+        rowsEl.appendChild(tr);
+      }
+
+      placeholders.forEach(addRow);
+      addBtn.addEventListener('click', () => addRow());
+
+      function num(input){
+        const v = parseFloat(String(input.value).trim().replace(',', '.'));
+        return isNaN(v) ? 0 : v;
+      }
+
+      function calculate(){
+        const rows = [...rowsEl.querySelectorAll('.tool-row')];
+        const items = [];
+        rows.forEach((row, i) => {
+          const nameInput = row.querySelector('.f-name');
+          const oldInput = row.querySelector('.f-old');
+          const newInput = row.querySelector('.f-new');
+          const spendInput = row.querySelector('.f-spend');
+          const name = nameInput.value.trim() || `Товар ${i + 1}`;
+          const oldPrice = num(oldInput);
+          const newPrice = num(newInput);
+          const spend = num(spendInput);
+          const hasRequiredValues = oldInput.value.trim() && newInput.value.trim() && spendInput.value.trim();
+          if (hasRequiredValues && oldPrice > 0 && spend > 0) {
+            items.push({ name, oldPrice, newPrice, spend, change: (newPrice - oldPrice) / oldPrice });
+          }
+        });
+        if (!items.length){
+          resultEl.hidden = false;
+          resultValueEl.textContent = '—';
+          resultValueEl.className = '';
+          resultHintEl.textContent = 'Заполните хотя бы один товар: старую цену и месячные траты на него.';
+          breakdownEl.innerHTML = '';
+          return;
+        }
+        const totalSpend = items.reduce((sum, it) => sum + it.spend, 0);
+        let weightedChange = 0;
+        items.forEach(it => { it.weight = it.spend / totalSpend; weightedChange += it.weight * it.change; });
+        const pct = weightedChange * 100;
+        resultEl.hidden = false;
+        resultValueEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+        resultValueEl.className = pct >= 0 ? 'up' : 'down';
+        resultHintEl.textContent = `Рассчитано по ${items.length} ${items.length === 1 ? 'товару' : 'товарам'}, взвешено по месячным тратам на каждый.`;
+        breakdownEl.innerHTML = items
+          .sort((a, b) => Math.abs(b.weight * b.change) - Math.abs(a.weight * a.change))
+          .map(it => {
+            const changePct = (it.change * 100).toFixed(1);
+            const cls = it.change >= 0 ? 'up' : 'down';
+            const sign = it.change >= 0 ? '+' : '';
+            return `<div class="tool-breakdown-row"><span class="name">${it.name}</span><span class="figs"><b class="${cls}">${sign}${changePct}%</b> · доля трат ${(it.weight*100).toFixed(0)}%</span></div>`;
+          }).join('');
+      }
+
+      calcBtn.addEventListener('click', calculate);
+    })();
+  </script>
+</body>
+</html>
