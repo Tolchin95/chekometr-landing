@@ -76,7 +76,7 @@
       <div class="tool" id="calc">
         <table class="tool-table">
           <thead>
-            <tr><th>Товар</th><th>Старая цена, ₽</th><th>Новая цена, ₽</th><th>Траты в месяц, ₽</th><th></th></tr>
+            <tr><th>Товар</th><th>Старая цена, ₽</th><th>Новая цена, ₽</th><th>Траты на него в месяц, ₽</th><th></th></tr>
           </thead>
           <tbody id="calcRows"></tbody>
         </table>
@@ -140,7 +140,7 @@
           <td data-label="Товар"><input type="text" class="f-name ym-disable-keys" placeholder="${v[0] || 'Например, хлеб'}" aria-label="Название товара"></td>
           <td data-label="Старая цена, ₽"><input type="text" inputmode="decimal" class="f-old ym-disable-keys" placeholder="${v[1] || '0'}" aria-label="Старая цена, рубли"></td>
           <td data-label="Новая цена, ₽"><input type="text" inputmode="decimal" class="f-new ym-disable-keys" placeholder="${v[2] || '0'}" aria-label="Новая цена, рубли"></td>
-          <td data-label="Траты в месяц, ₽"><input type="text" inputmode="decimal" class="f-spend ym-disable-keys" placeholder="${v[3] || '0'}" aria-label="Траты в месяц на этот товар, рубли"></td>
+          <td data-label="Траты на него в месяц, ₽"><input type="text" inputmode="decimal" class="f-spend ym-disable-keys" placeholder="${v[3] || '0'}" aria-label="Траты в месяц на этот товар, рубли"></td>
           <td><button type="button" class="rm" aria-label="Удалить строку">✕</button></td>
         `;
         tr.querySelector('.rm').addEventListener('click', () => { tr.remove(); });
