@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0B0B0C">
+  <title>Реальная доходность с учётом личной инфляции — Чекометр</title>
+  <meta name="description" content="Посчитай реальную доходность портфеля не по средней инфляции, а по своей. Калькулятор по формуле Фишера и личная инфляция по фото чеков.">
+  <link rel="canonical" href="https://chekometr.ru/invest">
+  <link rel="icon" type="image/png" sizes="256x256" href="assets/chekometr-app-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/chekometr-apple-touch-icon.png">
+  <meta name="apple-itunes-app" content="app-id=6775617473">
+  <link rel="preload" href="assets/fonts/jetbrains-mono-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/onest-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/chek.css">
+  <link rel="stylesheet" href="assets/chek-invest.css">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Чекометр">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:url" content="https://chekometr.ru/invest">
+  <meta property="og:title" content="Реальная доходность с учётом личной инфляции — Чекометр">
+  <meta property="og:description" content="Посчитай реальную доходность портфеля не по средней инфляции, а по своей. Калькулятор по формуле Фишера и личная инфляция по фото чеков.">
+  <meta property="og:image" content="https://chekometr.ru/assets/chekometr-app-icon.png">
+  <meta property="og:image:width" content="256">
+  <meta property="og:image:height" content="256">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Реальная доходность с учётом личной инфляции — Чекометр">
+  <meta name="twitter:description" content="Посчитай реальную доходность портфеля не по средней инфляции, а по своей. Калькулятор по формуле Фишера и личная инфляция по фото чеков.">
+  <meta name="twitter:image" content="https://chekometr.ru/assets/chekometr-app-icon.png">
+</head>
+<body class="theme-terminal">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7Z0QMZLKXD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7Z0QMZLKXD');
+  </script>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111971483', 'ym');
+
+    ym(111971483, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111971483" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  <a class="skip" href="#main">К содержанию</a>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Чекометр — в начало страницы">
+      <svg width="28" height="32" viewBox="0 0 28 32" fill="none" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 2h22v26l-3.7-2.5L17.6 28 14 25.5 10.4 28l-3.7-2.5L3 28z"/><path d="M8 9h12M8 14h12M8 19h7"/></svg>
+      <span class="brand-name">ЧЕКОМЕТР</span>
+    </a>
+    <div class="header-right">
+      <nav class="site-nav" aria-label="Основное меню">
+        <a href="#real">РЕАЛЬНАЯ_ДОХОДНОСТЬ</a>
+        <a href="#how">КАК_РАБОТАЕТ</a>
+        <a href="#faq">FAQ</a>
+        <a href="/materialy">МАТЕРИАЛЫ</a>
+      </nav>
+      <a class="btn btn--terminal btn--sm js-appstore" href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener">СКАЧАТЬ</a>
+    </div>
+  </header>
+
+  <div class="ticker" aria-hidden="true">
+    <p class="ticker-line">
+      <span class="ticker-label">ПРИМЕР ▸</span>
+      <span>КОФЕ ЗЕРНО 250Г <span class="dim">549,00</span> <b class="is-up">▲ +18,0%</b></span>
+      <span>СЫР 0,4КГ <span class="dim">389,00</span> <b class="is-up">▲ +12,3%</b></span>
+      <span>ЯЙЦА С0 10ШТ <span class="dim">129,90</span> <b class="is-up">▲ +6,5%</b></span>
+      <span>МОЛОКО 3,2% 1Л <span class="dim">94,90</span> <b class="is-up">▲ +4,2%</b></span>
+      <span>ГРЕЧКА 900Г <span class="dim">119,00</span> <b class="is-down">▼ −3,1%</b></span>
+      <span>БАНАНЫ 1КГ <span class="dim">139,00</span> <b class="is-flat">= 0,0%</b></span>
+    </p>
+  </div>
+
+  <main id="main">
+    <section id="top" class="wrap hero split">
+      <div class="hero-copy">
+        <p class="prompt">$ chekometr --real-return</p>
+        <h1 class="h1">Биржевой терминал для твоей продуктовой корзины</h1>
+        <p class="lead">Доходность портфеля ты знаешь до десятых. А свою инфляцию? Сфоткай чек — Чекометр распознает каждую строчку и посчитает инфляцию по твоей корзине, а не по средней.</p>
+        <div class="cta-row">
+          <a class="btn btn--accent btn--lg js-appstore" href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M6 10l6 6 6-6M4 21h16"/></svg>Скачать в App Store</a>
+          <span class="chip-soon" title="Версия для Android в планах"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg>Android — скоро</span>
+          <a class="btn btn--outline btn--lg" href="#real">Посчитать реальную доходность&nbsp;↓</a>
+        </div>
+        <p class="note">iOS · ANDROID — СКОРО · ЛИЧНАЯ ИНФЛЯЦИЯ БЕСПЛАТНО · БЕЗ РЕКЛАМЫ</p>
+      </div>
+
+      <figure class="term-card hero-widget">
+        <div class="term-bar"><span>МОЯ_КОРЗИНА · 3 МЕС</span><span class="term-tag">ПРИМЕР</span></div>
+        <div class="widget-stats">
+          <div class="widget-stat"><span class="widget-label">ЛИЧНАЯ ИНФЛЯЦИЯ</span><span class="widget-big">+7,4%</span></div>
+          <div class="widget-stat"><span class="widget-label">ОФИЦИАЛЬНАЯ</span><span class="widget-mid">+2,4%</span></div>
+          <svg class="spark" viewBox="0 0 160 48" preserveAspectRatio="none" role="img" aria-label="Пример: личная инфляция растёт быстрее официальной">
+            <polyline class="spark-official" points="0,46 32,43 64,40 96,38 128,35 160,32"/>
+            <polyline class="spark-mine" points="0,46 32,39 64,31 96,24 128,14 160,4"/>
+          </svg>
+        </div>
+        <table class="widget-table">
+          <thead><tr><th scope="col">ТОВАР</th><th scope="col">ЦЕНА</th><th scope="col">Δ 3М</th></tr></thead>
+          <tbody>
+            <tr><td>Кофе в зёрнах</td><td>549,00</td><td class="is-up">+18,0%</td></tr>
+            <tr><td>Сыр полутвёрдый</td><td>389,00</td><td class="is-up">+12,3%</td></tr>
+            <tr><td>Яйца С0, 10 шт</td><td>129,90</td><td class="is-up">+6,5%</td></tr>
+            <tr><td>Молоко 3,2%</td><td>94,90</td><td class="is-up">+4,2%</td></tr>
+            <tr><td>Гречка</td><td>119,00</td><td class="is-down">−3,1%</td></tr>
+          </tbody>
+        </table>
+        <figcaption class="term-foot">Пример экрана. Цифры условные.</figcaption>
+      </figure>
+    </section>
+
+    <section id="real" class="band">
+      <div class="wrap section split real">
+        <div class="real-copy">
+          <p class="eyebrow">// РЕАЛЬНАЯ_ДОХОДНОСТЬ</p>
+          <h2 class="h2">Номинал минус инфляция. Только твоя, а не средняя.</h2>
+          <p class="body-l">Реальную доходность портфеля обычно считают против официальной инфляции. Но тратишь ты не на среднюю корзину по стране, а на свою. Если твоя корзина дорожает быстрее средней, реальная доходность у тебя ниже, чем кажется.</p>
+          <p class="body-l">Чекометр считает личную инфляцию по твоим чекам. Подставь её в калькулятор и сравни.</p>
+        </div>
+
+        <div class="term-card calc" id="calc">
+          <div class="term-bar"><span>КАЛЬКУЛЯТОР · % ГОДОВЫХ</span><span>ПОДСТАВЬ СВОИ ЦИФРЫ</span></div>
+          <div class="calc-fields">
+            <div class="calc-field">
+              <label for="f-n">ДОХОДНОСТЬ ПОРТФЕЛЯ</label>
+              <div class="calc-input">
+                <input id="f-n" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="15" aria-describedby="e-n">
+                <button type="button" class="calc-sign" data-for="f-n" aria-label="Сменить знак доходности портфеля">±</button>
+              </div>
+              <p class="calc-error" id="e-n" role="alert"></p>
+            </div>
+            <div class="calc-field">
+              <label for="f-off">ОФИЦИАЛЬНАЯ ИНФЛЯЦИЯ</label>
+              <div class="calc-input">
+                <input id="f-off" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="6,35" aria-describedby="h-off e-off">
+                <button type="button" class="calc-sign" data-for="f-off" aria-label="Сменить знак официальной инфляции">±</button>
+              </div>
+              <p class="calc-hint" id="h-off">за сентябрь 2026 · <a href="https://www.cbr.ru/hd_base/infl/" target="_blank" rel="noopener">Банк России (данные Росстата)</a></p>
+              <p class="calc-error" id="e-off" role="alert"></p>
+            </div>
+            <div class="calc-field calc-field--mine">
+              <label for="f-mine">ТВОЯ ИНФЛЯЦИЯ</label>
+              <div class="calc-input">
+                <input id="f-mine" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="12" aria-describedby="h-mine e-mine">
+                <button type="button" class="calc-sign" data-for="f-mine" aria-label="Сменить знак твоей инфляции">±</button>
+              </div>
+              <p class="calc-hint" id="h-mine"><a href="/kalkulyator-lichnoy-inflyacii">Не знаешь свою? Посчитай за минуту</a></p>
+              <p class="calc-error" id="e-mine" role="alert"></p>
+            </div>
+          </div>
+          <div class="calc-results" aria-live="polite">
+            <div class="calc-row">
+              <span class="calc-row-label">Реальная доходность против официальной инфляции</span>
+              <output class="calc-num calc-num--off" id="r-off" for="f-n f-off">—</output>
+            </div>
+            <div class="calc-row calc-row--main">
+              <span class="calc-row-label">Реальная доходность против твоей инфляции</span>
+              <output class="calc-num calc-num--mine" id="r-mine" for="f-n f-mine">—</output>
+            </div>
+            <div class="calc-row calc-row--gap">
+              <span class="calc-row-label">Разница</span>
+              <output class="calc-num calc-num--gap" id="r-gap">—</output>
+            </div>
+          </div>
+          <p class="term-foot">Стартовые значения — для примера. Калькулятор считает арифметику по формуле Фишера: (1 + доходность) / (1 + инфляция) − 1. Не является индивидуальной инвестиционной рекомендацией.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="wrap section how">
+      <div class="section-head">
+        <p class="eyebrow">// КАК_РАБОТАЕТ</p>
+        <h2 class="h2">Пайплайн из трёх шагов</h2>
+      </div>
+      <ol class="cards">
+        <li class="term-card card">
+          <span class="card-tag">01 · SCAN</span>
+          <h3>Сфоткай чек</h3>
+          <p>На кассе или вечером, когда вытряхнешь чеки из карманов. Нужен только бумажный чек.</p>
+        </li>
+        <li class="term-card card">
+          <span class="card-tag">02 · PARSE</span>
+          <h3>Проверь строчки</h3>
+          <p>AI распознаёт каждую позицию и раскладывает по категориям. Сверяешь и сохраняешь, промахи правишь руками.</p>
+        </li>
+        <li class="term-card card">
+          <span class="card-tag">03 · ANALYZE</span>
+          <h3>Смотри котировки</h3>
+          <p>История цен по каждому товару, траты по категориям и личная инфляция — как график актива, только про твой холодильник.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="features" class="wrap split spec">
+      <div class="spec-copy">
+        <p class="eyebrow">// СПЕЦИФИКАЦИЯ</p>
+        <h2 class="h2">Что внутри, в формате, который ты оценишь</h2>
+      </div>
+      <figure class="term-card spec-card">
+        <figcaption class="term-bar"><span>chekometr.json</span></figcaption>
+<pre class="spec-json">{
+  "распознавание_по_фото": <span class="j-true">true</span>,
+  "каждая_позиция_отдельно": <span class="j-true">true</span>,
+  "ai_категории": <span class="j-str">"с ручной правкой"</span>,
+  "история_цен_по_товарам": <span class="j-true">true</span>,
+  "личная_инфляция": <span class="j-true">true</span>,
+  "только_моё": <span class="j-str">"долги и чужие траты отдельно"</span>,
+  "фото_без_сети": <span class="j-true">true</span>,
+  "реклама": <span class="j-num">0</span>,
+  "фото_в_день_бесплатно": <span class="j-num">2</span>,
+  "цена": <span class="j-str">"0 ₽, Premium — 199 ₽/мес"</span>
+}</pre>
+      </figure>
+    </section>
+
+    <section id="faq" class="wrap faq-section faq-invest">
+      <div class="section-head">
+        <p class="eyebrow">// FAQ</p>
+        <h2 class="h2">Частые вопросы</h2>
+      </div>
+      <div class="faq-list">
+        <details open>
+          <summary>Это инвестиционный совет?<span class="faq-icon" aria-hidden="true">+</span></summary>
+          <p>Нет. Чекометр считает твои траты и цены в твоей корзине. Что с этим делать — решаешь ты.</p>
+        </details>
+        <details>
+          <summary>Откуда берутся цифры?<span class="faq-icon" aria-hidden="true">+</span></summary>
+          <p>Из твоих чеков: каждая позиция, её цена и дата покупки. Никаких средних по стране.</p>
+        </details>
+        <details>
+          <summary>Это бесплатно?<span class="faq-icon" aria-hidden="true">+</span></summary>
+          <p>Да. Личная инфляция и базовые функции бесплатны, лимит — 2 фото чека в день. Premium — 199&nbsp;₽ в месяц или 1&nbsp;490&nbsp;₽ в год, он снимает лимит на фото.</p>
+        </details>
+        <details>
+          <summary>А на Android есть?<span class="faq-icon" aria-hidden="true">+</span></summary>
+          <p>Пока только iOS. Android в планах — сроки назовём, когда будем в них уверены.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <div class="end">
+    <section class="wrap final">
+      <p class="prompt">$ chekometr --install</p>
+      <h2 class="h1">Посчитай реальную доходность. По своей инфляции.</h2>
+      <div class="cta-row">
+        <a class="btn btn--accent btn--lg js-appstore" href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M6 10l6 6 6-6M4 21h16"/></svg>Скачать в App Store</a>
+        <span class="chip-soon" title="Версия для Android в планах"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg>Android — скоро</span>
+      </div>
+      <p class="note">iOS · ANDROID — СКОРО · 0 ₽ · БЕЗ РЕКЛАМЫ</p>
+    </section>
+    <footer class="wrap site-footer">
+      <div class="footer-brand">
+        <span class="brand-name">ЧЕКОМЕТР</span>
+        <a href="mailto:support@chekometr.ru">support@chekometr.ru</a>
+        <span>© 2026 ИП Толчин А. Е.</span>
+        <span class="footer-disclaimer">Материалы страницы не являются индивидуальной инвестиционной рекомендацией.</span>
+      </div>
+      <nav class="footer-nav" aria-label="Ссылки в подвале">
+        <ul>
+          <li><a href="/">Главная</a></li>
+          <li><a href="/materialy">Материалы</a></li>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/kalkulyator-lichnoy-inflyacii">Калькулятор личной инфляции</a></li>
+          <li><a href="/kalkulyator-tsena-za-kg-litr">Калькулятор цены за кг и литр</a></li>
+        </ul>
+        <ul>
+          <li><a href="/terms">Условия</a></li>
+          <li><a href="/consent">Согласие</a></li>
+          <li><a href="/privacy">Конфиденциальность</a></li>
+          <li><a href="/contacts">Контакты</a></li>
+          <li><a href="/support">Поддержка</a></li>
+        </ul>
+      </nav>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var YM_ID = 111971483;
+      function goal(name) {
+        if (typeof window.ym === 'function') {
+          try { window.ym(YM_ID, 'reachGoal', name); } catch (e) {}
+        }
+      }
+
+      document.querySelectorAll('.js-appstore').forEach(function (a) {
+        a.addEventListener('click', function () { goal('invest_cta'); });
+      });
+
+      // Официальная инфляция: обновляется автоматически в /assets/official-inflation.json
+      // (.github/workflows/update-inflation.yml); здесь — запасное значение.
+      var OFFICIAL_FALLBACK = {
+        value: 6.35,
+        period: '2026-09',
+        sourceName: 'Банк России (данные Росстата)',
+        sourceUrl: 'https://www.cbr.ru/hd_base/infl/'
+      };
+      var MONTHS = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+
+      var fields = {
+        n: { input: document.getElementById('f-n'), error: document.getElementById('e-n'), kind: 'return' },
+        off: { input: document.getElementById('f-off'), error: document.getElementById('e-off'), kind: 'inflation' },
+        mine: { input: document.getElementById('f-mine'), error: document.getElementById('e-mine'), kind: 'inflation' }
+      };
+      var out = {
+        off: document.getElementById('r-off'),
+        mine: document.getElementById('r-mine'),
+        gap: document.getElementById('r-gap')
+      };
+      var hintOff = document.getElementById('h-off');
+      var usedSent = false;
+      var officialEdited = false;
+
+      function toInput(x) { return String(x).replace('.', ','); }
+
+      // Возвращает {value} или {error}. Принимает запятую, точку, пробелы и знак «−».
+      function read(field) {
+        var raw = field.input.value.replace(/\s/g, '').replace(/[−–]/g, '-').replace(',', '.').replace(/%$/, '');
+        if (raw === '') return { error: 'Введи число' };
+        if (!/^[-+]?(\d+(\.\d*)?|\.\d+)$/.test(raw)) return { error: 'Нужно число, например 12 или 7,5' };
+        var v = parseFloat(raw);
+        if (field.kind === 'inflation' && v <= -100) return { error: 'Инфляция должна быть больше −100%' };
+        if (field.kind === 'return' && v < -100) return { error: 'Доходность не может быть ниже −100%' };
+        return { value: v };
+      }
+
+      function fmt(x, unit) {
+        var sign = x > 0.05 ? '+' : (x < -0.05 ? '−' : '');
+        return sign + Math.abs(x).toFixed(1).replace('.', ',') + unit;
+      }
+
+      // Формула Фишера: (1 + r) / (1 + i) − 1
+      function real(r, i) { return ((1 + r / 100) / (1 + i / 100) - 1) * 100; }
+      function round1(x) { return (x < 0 ? -1 : 1) * Math.round(Math.abs(x) * 10) / 10; }
+
+      function show(el, value, unit) {
+        if (value == null) {
+          el.textContent = '—';
+          el.classList.remove('is-neg');
+          return;
+        }
+        el.textContent = fmt(value, unit);
+        el.classList.toggle('is-neg', value < -0.05);
+      }
+
+      function compute() {
+        var vals = {};
+        Object.keys(fields).forEach(function (key) {
+          var f = fields[key];
+          var res = read(f);
+          f.error.textContent = res.error || '';
+          if (res.error) f.input.setAttribute('aria-invalid', 'true');
+          else f.input.removeAttribute('aria-invalid');
+          vals[key] = res.error ? null : res.value;
+        });
+        var ro = vals.n != null && vals.off != null ? real(vals.n, vals.off) : null;
+        var rm = vals.n != null && vals.mine != null ? real(vals.n, vals.mine) : null;
+        show(out.off, ro, '%');
+        show(out.mine, rm, '%');
+        // Разрыв считаем по уже округлённым значениям, чтобы на экране сходилось: 2,7 − 8,1 = −5,4.
+        show(out.gap, ro != null && rm != null ? round1(round1(rm) - round1(ro)) : null, ' п.п.');
+      }
+
+      function userChanged() {
+        if (!usedSent) { usedSent = true; goal('invest_calc_used'); }
+        compute();
+      }
+
+      Object.keys(fields).forEach(function (key) {
+        fields[key].input.addEventListener('input', function () {
+          if (key === 'off') officialEdited = true;
+          userChanged();
+        });
+      });
+
+      document.querySelectorAll('.calc-sign').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var input = document.getElementById(btn.getAttribute('data-for'));
+          var v = input.value.trim();
+          input.value = /^[-−–]/.test(v) ? v.replace(/^[-−–]\s*/, '') : '−' + v;
+          if (input.id === 'f-off') officialEdited = true;
+          userChanged();
+        });
+      });
+
+      function setOfficial(d) {
+        var y = d.period.slice(0, 4);
+        var m = MONTHS[Number(d.period.slice(5, 7)) - 1];
+        hintOff.textContent = 'за ' + m + ' ' + y + ' · ';
+        var a = document.createElement('a');
+        a.href = d.sourceUrl;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = d.sourceName;
+        hintOff.appendChild(a);
+        if (!officialEdited) fields.off.input.value = toInput(d.value);
+        compute();
+      }
+
+      setOfficial(OFFICIAL_FALLBACK);
+
+      if (window.fetch) {
+        fetch('/assets/official-inflation.json', { cache: 'no-cache' })
+          .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)); })
+          .then(function (d) {
+            var ok = d && typeof d.value === 'number' && d.value > 0 && d.value < 30
+              && /^\d{4}-(0[1-9]|1[0-2])$/.test(d.period)
+              && typeof d.sourceName === 'string' && d.sourceName
+              && typeof d.sourceUrl === 'string' && /^https:\/\//.test(d.sourceUrl);
+            if (ok) setOfficial(d);
+          })
+          .catch(function () {});
+      }
+    })();
+  </script>
+</body>
+</html>
