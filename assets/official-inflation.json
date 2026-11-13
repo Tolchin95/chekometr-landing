@@ -1,0 +1,8 @@
+{
+  "value": 6.35,
+  "period": "2026-09",
+  "label": "годовая, за сентябрь 2026",
+  "sourceName": "Банк России (данные Росстата)",
+  "sourceUrl": "https://www.cbr.ru/hd_base/infl/",
+  "checkedAt": "2026-11-13"
+}

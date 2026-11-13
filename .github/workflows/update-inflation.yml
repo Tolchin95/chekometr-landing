@@ -1,0 +1,53 @@
+name: Update official inflation
+
+# Раз в день берёт последнюю годовую инфляцию из таблицы Банка России
+# (scripts/update_official_inflation.py), при новом месяце коммитит
+# assets/official-inflation.json в main и запускает деплой.
+# Если таблицу не удалось разобрать — job падает, на сайте остаётся прежняя цифра.
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # 09:00 МСК
+  workflow_dispatch: {}
+
+permissions:
+  contents: write # push коммита с новым JSON в main
+  actions: write # gh workflow run deploy.yml
+
+concurrency:
+  group: update-official-inflation
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Fetch latest official inflation
+        id: update
+        run: python3 scripts/update_official_inflation.py
+
+      - name: Commit and push to main
+        if: steps.update.outputs.changed == 'true'
+        env:
+          COMMIT_MESSAGE: ${{ steps.update.outputs.commit_message }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/official-inflation.json
+          git commit -m "$COMMIT_MESSAGE"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      # Push с GITHUB_TOKEN не запускает deploy.yml по событию push,
+      # поэтому деплой запускаем явно через workflow_dispatch.
+      - name: Trigger deploy
+        if: steps.update.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main --repo "$GITHUB_REPOSITORY"
