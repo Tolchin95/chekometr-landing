@@ -136,13 +136,19 @@
   <footer><div class="footer-inner"><span>© 2026 Чекометр · support@chekometr.ru</span><div class="footer-links"><a href="/terms">Условия</a><a href="/consent">Согласие</a><a href="/privacy">Конфиденциальность</a><a href="/contacts">Контакты</a><a href="/support">Поддержка</a></div></div></footer>
   <script>
     (()=>{
-      // Официальная годовая инфляция для сравнения. Обновлять раз в месяц: значение, дату и источник.
+      // Официальная годовая инфляция для сравнения.
+      // Обновляется автоматически: .github/workflows/update-inflation.yml пишет /assets/official-inflation.json;
+      // здесь — запасное значение на случай, если JSON не загрузится.
       const OFFICIAL_INFLATION = {
-        value: 7.11,
-        date: '26.10.2026',
-        sourceName: 'Интерфакс',
-        sourceUrl: 'https://www.interfax.ru/business/1125579'
+        value: 6.35,
+        period: '2026-09',
+        label: 'годовая, за сентябрь 2026',
+        sourceName: 'Банк России (данные Росстата)',
+        sourceUrl: 'https://www.cbr.ru/hd_base/infl/'
       };
+      const OFFICIAL_JSON_URL = '/assets/official-inflation.json';
+      const MONTHS_RU = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+      let officialData = OFFICIAL_INFLATION;
       const YM_ID = 111971483;
       const PAGE_URL = 'https://chekometr.ru/kalkulyator-lichnoy-inflyacii';
 
@@ -187,6 +193,36 @@
         if (s === fmt(0, digits)) return s;
         return (x > 0 ? '+' : '−') + s;
       }
+      // '2026-09' → 'за сентябрь 2026'
+      function periodText(period){
+        const [y, m] = period.split('-');
+        return `за ${MONTHS_RU[Number(m) - 1]} ${y}`;
+      }
+
+      // Подхватывает свежую цифру из JSON. При любой ошибке остаётся запасное значение.
+      function loadOfficial(){
+        if (!window.fetch) return;
+        fetch(OFFICIAL_JSON_URL, { cache: 'no-cache' })
+          .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
+          .then(d => {
+            const ok = d && typeof d.value === 'number' && d.value > 0 && d.value < 30
+              && /^\d{4}-(0[1-9]|1[0-2])$/.test(d.period)
+              && typeof d.sourceName === 'string' && d.sourceName
+              && typeof d.sourceUrl === 'string' && /^https:\/\//.test(d.sourceUrl);
+            if (!ok) return;
+            officialData = {
+              value: d.value,
+              period: d.period,
+              label: typeof d.label === 'string' && d.label ? d.label : 'годовая, ' + periodText(d.period),
+              sourceName: d.sourceName,
+              sourceUrl: d.sourceUrl
+            };
+            // Пересчёт на месте: если цифра та же, пользователь изменений не увидит.
+            calculate();
+          })
+          .catch(() => {});
+      }
+
       function dativeItems(n){
         return (n % 10 === 1 && n % 100 !== 11) ? 'товару' : 'товарам';
       }
@@ -291,22 +327,22 @@
         const periodPct = periodChange * 100;
         // Для коротких периодов — пересчёт на год сложным процентом (грубая оценка).
         const annualPct = months === 12 ? periodPct : (Math.pow(1 + periodChange, 12 / months) - 1) * 100;
-        const gap = annualPct - OFFICIAL_INFLATION.value;
+        const gap = annualPct - officialData.value;
 
         resultValueEl.textContent = signed(periodPct) + '%';
         resultValueEl.className = periodPct >= 0 ? 'up' : 'down';
         resultHintEl.textContent = `Рассчитано по ${items.length} ${dativeItems(items.length)}, взвешено по месячным тратам на каждый.` + skippedNote;
 
         if (months !== 12) stat('В пересчёте на год', '≈ ' + signed(annualPct) + '%', annualPct >= 0 ? 'up' : 'down', 'грубая оценка');
-        stat('Официальная инфляция', fmt(OFFICIAL_INFLATION.value, 2) + '%', '', 'годовая, на ' + OFFICIAL_INFLATION.date);
+        stat('Официальная инфляция', fmt(officialData.value, 2) + '%', '', officialData.label);
         stat('Разница с официальной', signed(gap) + ' п.п.', gap >= 0 ? 'up' : 'down', gap >= 0 ? 'ваша годовая выше официальной' : 'ваша годовая ниже официальной');
 
-        sourceEl.textContent = `Официальная инфляция: ${fmt(OFFICIAL_INFLATION.value, 2)}% годовых на ${OFFICIAL_INFLATION.date}, источник — `;
+        sourceEl.textContent = `Официальная инфляция: ${fmt(officialData.value, 2)}% годовых ${periodText(officialData.period)}, источник — `;
         const a = document.createElement('a');
-        a.href = OFFICIAL_INFLATION.sourceUrl;
+        a.href = officialData.sourceUrl;
         a.target = '_blank';
         a.rel = 'noopener';
-        a.textContent = OFFICIAL_INFLATION.sourceName;
+        a.textContent = officialData.sourceName;
         sourceEl.append(a, '.');
         sourceEl.hidden = false;
 
@@ -328,7 +364,7 @@
             breakdownEl.appendChild(row);
           });
 
-        const official = fmt(OFFICIAL_INFLATION.value, 2) + '%';
+        const official = fmt(officialData.value, 2) + '%';
         lastShareText = months === 12
           ? `Моя личная инфляция ${signed(annualPct)}% против официальной ${official} — посчитайте свою: ${PAGE_URL}`
           : `Моя личная инфляция ≈${signed(annualPct)}% в пересчёте на год против официальной ${official} — посчитайте свою: ${PAGE_URL}`;
@@ -406,6 +442,7 @@
 
       EXAMPLE.forEach(addRow);
       calculate();
+      loadOfficial();
     })();
   </script>
 </body>
