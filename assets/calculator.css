@@ -27,6 +27,29 @@
 .tool-breakdown-row .figs{color:var(--muted);white-space:nowrap}
 .tool-breakdown-row .figs b.up{color:var(--danger)}
 .tool-breakdown-row .figs b.down{color:var(--lime)}
+.tool-period{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem .8rem;margin:0 0 1.3rem}
+.tool-period label{font-size:.9rem;color:var(--ink);font-weight:600}
+.tool-period select{min-height:44px;padding:.55rem 2rem .55rem .8rem;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink);font-size:.92rem;font-family:inherit;color-scheme:dark}
+.tool-period select:focus-visible{outline:2px solid var(--lime);outline-offset:1px}
+.tool-example{margin:.2rem 0 1rem;font:700 .7rem ui-monospace,SFMono-Regular,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan)}
+.tool-clear{height:44px;padding:0 1.2rem;border-radius:999px;font-size:.86rem;font-weight:700;cursor:pointer;font-family:inherit;border:1px solid var(--line);background:transparent;color:var(--muted)}
+.tool-clear:hover{color:var(--ink);border-color:rgba(255,143,171,.4)}
+.tool-add:focus-visible,.tool-calc:focus-visible,.tool-clear:focus-visible,.tool-share:focus-visible,.tool-row .rm:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.tool-row input[aria-invalid="true"]{border-color:rgba(255,143,171,.6)}
+.tool-stats{margin-top:1.2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.6rem}
+.tool-stat{padding:.8rem .9rem;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02)}
+.tool-stat-label{display:block;margin-bottom:.3rem;font:700 .62rem ui-monospace,SFMono-Regular,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tool-stat-value{font-size:1.25rem;font-weight:650;letter-spacing:-.02em;color:var(--ink)}
+.tool-stat-value.up{color:var(--danger)}
+.tool-stat-value.down{color:var(--lime)}
+.tool-stat-note{display:block;margin-top:.25rem;font-size:.75rem;color:var(--muted)}
+.tool-source{margin-top:.8rem;font-size:.78rem;color:var(--muted)}
+.tool-source a{color:var(--ink)}
+.tool-share-row{display:flex;flex-wrap:wrap;align-items:center;gap:.7rem;margin-top:1.2rem}
+.tool-share-row[hidden],.tool-example[hidden],.tool-source[hidden]{display:none}
+.tool-share{display:inline-flex;align-items:center;height:44px;padding:0 1.2rem;border-radius:999px;font-size:.86rem;font-weight:700;cursor:pointer;font-family:inherit;border:1px solid rgba(102,231,255,.45);background:rgba(102,231,255,.08);color:var(--ink)}
+.tool-share:hover{background:rgba(102,231,255,.14)}
+.tool-share-status{font-size:.82rem;color:var(--lime)}
 @media (max-width:640px){
   .tool{padding:1.1rem}
   .tool-table thead{display:none}
