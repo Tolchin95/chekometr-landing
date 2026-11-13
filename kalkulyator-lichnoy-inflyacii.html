@@ -71,9 +71,19 @@
     <article class="article-shell">
       <span class="kicker">Инструмент</span>
       <h1>Калькулятор личной инфляции</h1>
-      <p class="dek">Внесите товары, которые покупаете регулярно, их старую и новую цену и примерные месячные траты на каждый — калькулятор посчитает средневзвешенный рост цен по вашей собственной корзине. Как устроена формула — в статье <a href="/lichnaya-inflyaciya">«Личная инфляция: что это и как её посчитать»</a>.</p>
+      <p class="dek">Внесите товары, которые покупаете регулярно, их старую и новую цену и примерные месячные траты на каждый — калькулятор посчитает средневзвешенный рост цен по вашей собственной корзине и сравнит его с официальной инфляцией. Как устроена формула — в статье <a href="/lichnaya-inflyaciya">«Личная инфляция: что это и как её посчитать»</a>.</p>
 
       <div class="tool" id="calc">
+        <div class="tool-period">
+          <label for="period">Старые цены — это</label>
+          <select id="period">
+            <option value="1">месяц назад</option>
+            <option value="3">3 месяца назад</option>
+            <option value="6">полгода назад</option>
+            <option value="12" selected>год назад</option>
+          </select>
+        </div>
+        <p class="tool-example" id="exampleNote">Пример — замените на свои</p>
         <table class="tool-table">
           <thead>
             <tr><th>Товар</th><th>Старая цена, ₽</th><th>Новая цена, ₽</th><th>Траты на него в месяц, ₽</th><th></th></tr>
@@ -83,26 +93,34 @@
         <div class="tool-actions">
           <button type="button" class="tool-add" id="addRow">+ Добавить товар</button>
           <button type="button" class="tool-calc" id="calcBtn">Посчитать</button>
+          <button type="button" class="tool-clear" id="clearBtn">Очистить</button>
         </div>
-        <div class="tool-result" id="result" hidden aria-live="polite">
-          <div class="tool-result-figure"><b id="resultValue">0%</b><span>личная инфляция по указанным товарам</span></div>
+        <div class="tool-result" id="result">
+          <div class="tool-result-figure" aria-live="polite"><b id="resultValue">—</b><span id="resultLabel">личная инфляция за год</span></div>
           <p class="tool-hint" id="resultHint"></p>
+          <div class="tool-stats" id="stats"></div>
+          <p class="tool-source" id="source" hidden></p>
           <div class="tool-breakdown" id="breakdown"></div>
+          <div class="tool-share-row" id="shareRow" hidden>
+            <button type="button" class="tool-share" id="shareBtn">Поделиться результатом</button>
+            <span class="tool-share-status" id="shareStatus" role="status"></span>
+          </div>
         </div>
+      </div>
+
+      <div class="cta-inline">
+        <p>Чекометр считает личную инфляцию сам — по фото чеков. Бесплатно, до 2 фото чека в день.</p>
+        <a id="ctaAppStore" href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener">Скачать в App Store</a>
       </div>
 
       <div class="prose">
         <p>Расчёт выполняется прямо в вашем браузере — введённые цены и названия товаров не передаются на сервер Чекометра и нигде не сохраняются. Закроете страницу — расчёт исчезнет.</p>
         <p>Чем больше регулярных покупок вы внесёте и чем точнее укажете месячные траты на каждую, тем осмысленнее результат: одна-две позиции дадут случайное число, а не устойчивую картину.</p>
-
-        <div class="cta-inline">
-          <p>Чекометр делает то же самое автоматически по вашим чекам — без ручного ввода цен каждый месяц.</p>
-          <a href="https://apps.apple.com/ru/app/чекометр/id6775617473" target="_blank" rel="noopener">Скачать Чекометр</a>
-        </div>
+        <p>Официальная инфляция — годовая цифра, поэтому сравнивать с ней корректно тоже годовой рост. Если старые цены вы помните за месяц, 3 месяца или полгода, калькулятор пересчитает результат на год, предполагая, что цены и дальше будут расти тем же темпом. Это грубая оценка: за короткий период сильнее сказываются акции, сезонность и случайные колебания.</p>
 
         <div class="disclaimer">
           <span class="disclaimer-label">Важно</span>
-          <p>Результат калькулятора — личный расчёт по введённым вами данным, а не официальная статистика и не финансовая консультация. Точность зависит от того, насколько введённые товары и суммы отражают ваши реальные регулярные траты.</p>
+          <p>Результат калькулятора — личный расчёт по введённым вами данным, а не официальная статистика и не финансовая консультация. Точность зависит от того, насколько введённые товары и суммы отражают ваши реальные регулярные траты. Пересчёт на год для коротких периодов — грубая оценка, а не прогноз.</p>
         </div>
       </div>
 
@@ -118,87 +136,276 @@
   <footer><div class="footer-inner"><span>© 2026 Чекометр · support@chekometr.ru</span><div class="footer-links"><a href="/terms">Условия</a><a href="/consent">Согласие</a><a href="/privacy">Конфиденциальность</a><a href="/contacts">Контакты</a><a href="/support">Поддержка</a></div></div></footer>
   <script>
     (()=>{
-      const rowsEl = document.querySelector('#calcRows');
-      const addBtn = document.querySelector('#addRow');
-      const calcBtn = document.querySelector('#calcBtn');
-      const resultEl = document.querySelector('#result');
-      const resultValueEl = document.querySelector('#resultValue');
-      const resultHintEl = document.querySelector('#resultHint');
-      const breakdownEl = document.querySelector('#breakdown');
+      // Официальная годовая инфляция для сравнения. Обновлять раз в месяц: значение, дату и источник.
+      const OFFICIAL_INFLATION = {
+        value: 7.11,
+        date: '26.10.2026',
+        sourceName: 'Интерфакс',
+        sourceUrl: 'https://www.interfax.ru/business/1125579'
+      };
+      const YM_ID = 111971483;
+      const PAGE_URL = 'https://chekometr.ru/kalkulyator-lichnoy-inflyacii';
 
-      const placeholders = [
-        ['Молоко 3,2%', '109.90', '119.90', '600'],
-        ['Кофе в зёрнах', '650', '720', '1300'],
-        ['', '', '', '']
+      // Пример: старая цена, новая цена, траты в месяц (по старым ценам).
+      const EXAMPLE = [
+        ['Молоко 3,2%, 1 л', '85', '95', '680'],
+        ['Кофе в зёрнах, 250 г', '465', '549', '930'],
+        ['Сыр полутвёрдый, 400 г', '345', '389', '1035'],
+        ['Гречка, 900 г', '123', '119', '123']
       ];
+      const PERIOD_LABELS = { 1: 'за месяц', 3: 'за 3 месяца', 6: 'за полгода', 12: 'за год' };
 
-      function addRow(values){
-        const tr = document.createElement('tr');
-        tr.className = 'tool-row';
-        const v = values || ['','','',''];
-        tr.innerHTML = `
-          <td data-label="Товар"><input type="text" class="f-name ym-disable-keys" placeholder="${v[0] || 'Например, хлеб'}" aria-label="Название товара"></td>
-          <td data-label="Старая цена, ₽"><input type="text" inputmode="decimal" class="f-old ym-disable-keys" placeholder="${v[1] || '0'}" aria-label="Старая цена, рубли"></td>
-          <td data-label="Новая цена, ₽"><input type="text" inputmode="decimal" class="f-new ym-disable-keys" placeholder="${v[2] || '0'}" aria-label="Новая цена, рубли"></td>
-          <td data-label="Траты на него в месяц, ₽"><input type="text" inputmode="decimal" class="f-spend ym-disable-keys" placeholder="${v[3] || '0'}" aria-label="Траты в месяц на этот товар, рубли"></td>
-          <td><button type="button" class="rm" aria-label="Удалить строку">✕</button></td>
-        `;
-        tr.querySelector('.rm').addEventListener('click', () => { tr.remove(); });
-        rowsEl.appendChild(tr);
+      const rowsEl = document.querySelector('#calcRows');
+      const periodEl = document.querySelector('#period');
+      const exampleNoteEl = document.querySelector('#exampleNote');
+      const resultValueEl = document.querySelector('#resultValue');
+      const resultLabelEl = document.querySelector('#resultLabel');
+      const resultHintEl = document.querySelector('#resultHint');
+      const statsEl = document.querySelector('#stats');
+      const sourceEl = document.querySelector('#source');
+      const breakdownEl = document.querySelector('#breakdown');
+      const shareRowEl = document.querySelector('#shareRow');
+      const shareBtn = document.querySelector('#shareBtn');
+      const shareStatusEl = document.querySelector('#shareStatus');
+
+      let isExample = true;
+      let usedSent = false;
+      let lastShareText = '';
+
+      function goal(name){
+        if (typeof window.ym === 'function') {
+          try { window.ym(YM_ID, 'reachGoal', name); } catch (e) {}
+        }
       }
 
-      placeholders.forEach(addRow);
-      addBtn.addEventListener('click', () => addRow());
+      function fmt(x, digits){
+        const d = digits == null ? 1 : digits;
+        return Math.abs(x).toLocaleString('ru-RU', { minimumFractionDigits: d, maximumFractionDigits: d });
+      }
+      function signed(x, digits){
+        const s = fmt(x, digits);
+        if (s === fmt(0, digits)) return s;
+        return (x > 0 ? '+' : '−') + s;
+      }
+      function dativeItems(n){
+        return (n % 10 === 1 && n % 100 !== 11) ? 'товару' : 'товарам';
+      }
 
+      function addRow(values){
+        const v = values || ['', '', '', ''];
+        const tr = document.createElement('tr');
+        tr.className = 'tool-row';
+        tr.innerHTML = `
+          <td data-label="Товар"><input type="text" class="f-name ym-disable-keys" placeholder="Например, хлеб" maxlength="80" aria-label="Название товара"></td>
+          <td data-label="Старая цена, ₽"><input type="text" inputmode="decimal" class="f-old ym-disable-keys" placeholder="0" aria-label="Старая цена, рубли"></td>
+          <td data-label="Новая цена, ₽"><input type="text" inputmode="decimal" class="f-new ym-disable-keys" placeholder="0" aria-label="Новая цена, рубли"></td>
+          <td data-label="Траты на него в месяц, ₽"><input type="text" inputmode="decimal" class="f-spend ym-disable-keys" placeholder="0" aria-label="Траты в месяц на этот товар, рубли"></td>
+          <td><button type="button" class="rm" aria-label="Удалить строку">✕</button></td>
+        `;
+        tr.querySelector('.f-name').value = v[0];
+        tr.querySelector('.f-old').value = v[1];
+        tr.querySelector('.f-new').value = v[2];
+        tr.querySelector('.f-spend').value = v[3];
+        rowsEl.appendChild(tr);
+        return tr;
+      }
+
+      // Положительное число или NaN. Пустая строка, «0», «-5», «12abc» — не проходят.
       function num(input){
-        const v = parseFloat(String(input.value).trim().replace(',', '.'));
-        return isNaN(v) ? 0 : v;
+        const s = String(input.value).replace(/\s/g, '').replace(',', '.');
+        if (!s) return NaN;
+        const v = Number(s);
+        return isFinite(v) ? v : NaN;
+      }
+
+      function markEdited(){
+        if (!isExample) return;
+        isExample = false;
+        exampleNoteEl.hidden = true;
+      }
+
+      function stat(label, value, cls, note){
+        const box = document.createElement('div');
+        box.className = 'tool-stat';
+        const l = document.createElement('span');
+        l.className = 'tool-stat-label';
+        l.textContent = label;
+        const val = document.createElement('div');
+        val.className = 'tool-stat-value' + (cls ? ' ' + cls : '');
+        val.textContent = value;
+        box.append(l, val);
+        if (note) {
+          const n = document.createElement('span');
+          n.className = 'tool-stat-note';
+          n.textContent = note;
+          box.appendChild(n);
+        }
+        statsEl.appendChild(box);
       }
 
       function calculate(){
-        const rows = [...rowsEl.querySelectorAll('.tool-row')];
+        const months = parseInt(periodEl.value, 10) || 12;
         const items = [];
-        rows.forEach((row, i) => {
-          const nameInput = row.querySelector('.f-name');
-          const oldInput = row.querySelector('.f-old');
-          const newInput = row.querySelector('.f-new');
-          const spendInput = row.querySelector('.f-spend');
-          const name = nameInput.value.trim() || `Товар ${i + 1}`;
-          const oldPrice = num(oldInput);
-          const newPrice = num(newInput);
-          const spend = num(spendInput);
-          const hasRequiredValues = oldInput.value.trim() && newInput.value.trim() && spendInput.value.trim();
-          if (hasRequiredValues && oldPrice > 0 && spend > 0) {
-            items.push({ name, oldPrice, newPrice, spend, change: (newPrice - oldPrice) / oldPrice });
+        let skipped = 0;
+        [...rowsEl.querySelectorAll('.tool-row')].forEach((row, i) => {
+          const inputs = {
+            old: row.querySelector('.f-old'),
+            new: row.querySelector('.f-new'),
+            spend: row.querySelector('.f-spend')
+          };
+          const name = row.querySelector('.f-name').value.trim() || `Товар ${i + 1}`;
+          const oldPrice = num(inputs.old);
+          const newPrice = num(inputs.new);
+          const spend = num(inputs.spend);
+          const filled = [inputs.old, inputs.new, inputs.spend].some(inp => inp.value.trim());
+          // Подсвечиваем только явно неверные значения, а не пустые поля недозаполненной строки.
+          [[inputs.old, oldPrice], [inputs.new, newPrice], [inputs.spend, spend]].forEach(([inp, val]) => {
+            if (inp.value.trim() && !(val > 0)) inp.setAttribute('aria-invalid', 'true');
+            else inp.removeAttribute('aria-invalid');
+          });
+          if (oldPrice > 0 && newPrice > 0 && spend > 0) {
+            items.push({ name, spend, change: (newPrice - oldPrice) / oldPrice });
+          } else if (filled) {
+            skipped++;
           }
         });
+
+        statsEl.textContent = '';
+        breakdownEl.textContent = '';
+        resultLabelEl.textContent = 'личная инфляция ' + PERIOD_LABELS[months];
+        const skippedNote = skipped ? ` Пропущено строк: ${skipped} — в них нужны старая и новая цена больше нуля и траты в месяц.` : '';
+
         if (!items.length){
-          resultEl.hidden = false;
           resultValueEl.textContent = '—';
           resultValueEl.className = '';
-          resultHintEl.textContent = 'Заполните хотя бы один товар: старую цену и месячные траты на него.';
-          breakdownEl.innerHTML = '';
+          resultHintEl.textContent = 'Заполните хотя бы один товар: старую и новую цену (больше нуля) и траты на него в месяц.' + skippedNote;
+          sourceEl.hidden = true;
+          shareRowEl.hidden = true;
+          lastShareText = '';
           return;
         }
+
         const totalSpend = items.reduce((sum, it) => sum + it.spend, 0);
-        let weightedChange = 0;
-        items.forEach(it => { it.weight = it.spend / totalSpend; weightedChange += it.weight * it.change; });
-        const pct = weightedChange * 100;
-        resultEl.hidden = false;
-        resultValueEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
-        resultValueEl.className = pct >= 0 ? 'up' : 'down';
-        resultHintEl.textContent = `Рассчитано по ${items.length} ${items.length === 1 ? 'товару' : 'товарам'}, взвешено по месячным тратам на каждый.`;
-        breakdownEl.innerHTML = items
-          .sort((a, b) => Math.abs(b.weight * b.change) - Math.abs(a.weight * a.change))
-          .map(it => {
-            const changePct = (it.change * 100).toFixed(1);
-            const cls = it.change >= 0 ? 'up' : 'down';
-            const sign = it.change >= 0 ? '+' : '';
-            return `<div class="tool-breakdown-row"><span class="name">${it.name}</span><span class="figs"><b class="${cls}">${sign}${changePct}%</b> · доля трат ${(it.weight*100).toFixed(0)}%</span></div>`;
-          }).join('');
+        let periodChange = 0;
+        items.forEach(it => { it.weight = it.spend / totalSpend; periodChange += it.weight * it.change; });
+        const periodPct = periodChange * 100;
+        // Для коротких периодов — пересчёт на год сложным процентом (грубая оценка).
+        const annualPct = months === 12 ? periodPct : (Math.pow(1 + periodChange, 12 / months) - 1) * 100;
+        const gap = annualPct - OFFICIAL_INFLATION.value;
+
+        resultValueEl.textContent = signed(periodPct) + '%';
+        resultValueEl.className = periodPct >= 0 ? 'up' : 'down';
+        resultHintEl.textContent = `Рассчитано по ${items.length} ${dativeItems(items.length)}, взвешено по месячным тратам на каждый.` + skippedNote;
+
+        if (months !== 12) stat('В пересчёте на год', '≈ ' + signed(annualPct) + '%', annualPct >= 0 ? 'up' : 'down', 'грубая оценка');
+        stat('Официальная инфляция', fmt(OFFICIAL_INFLATION.value, 2) + '%', '', 'годовая, на ' + OFFICIAL_INFLATION.date);
+        stat('Разница с официальной', signed(gap) + ' п.п.', gap >= 0 ? 'up' : 'down', gap >= 0 ? 'ваша годовая выше официальной' : 'ваша годовая ниже официальной');
+
+        sourceEl.textContent = `Официальная инфляция: ${fmt(OFFICIAL_INFLATION.value, 2)}% годовых на ${OFFICIAL_INFLATION.date}, источник — `;
+        const a = document.createElement('a');
+        a.href = OFFICIAL_INFLATION.sourceUrl;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = OFFICIAL_INFLATION.sourceName;
+        sourceEl.append(a, '.');
+        sourceEl.hidden = false;
+
+        items
+          .sort((x, y) => Math.abs(y.weight * y.change) - Math.abs(x.weight * x.change))
+          .forEach(it => {
+            const row = document.createElement('div');
+            row.className = 'tool-breakdown-row';
+            const name = document.createElement('span');
+            name.className = 'name';
+            name.textContent = it.name;
+            const figs = document.createElement('span');
+            figs.className = 'figs';
+            const b = document.createElement('b');
+            b.className = it.change >= 0 ? 'up' : 'down';
+            b.textContent = signed(it.change * 100) + '%';
+            figs.append(b, ` · доля трат ${(it.weight * 100).toFixed(0)}%`);
+            row.append(name, figs);
+            breakdownEl.appendChild(row);
+          });
+
+        const official = fmt(OFFICIAL_INFLATION.value, 2) + '%';
+        lastShareText = months === 12
+          ? `Моя личная инфляция ${signed(annualPct)}% против официальной ${official} — посчитайте свою: ${PAGE_URL}`
+          : `Моя личная инфляция ≈${signed(annualPct)}% в пересчёте на год против официальной ${official} — посчитайте свою: ${PAGE_URL}`;
+        // Делиться можно только своим результатом, не примером.
+        shareRowEl.hidden = isExample;
+        if (!isExample && !usedSent) { usedSent = true; goal('calc_used'); }
       }
 
-      calcBtn.addEventListener('click', calculate);
+      function copyText(text){
+        if (navigator.clipboard && window.isSecureContext) {
+          return navigator.clipboard.writeText(text).then(() => true, () => legacyCopy(text));
+        }
+        return Promise.resolve(legacyCopy(text));
+      }
+      function legacyCopy(text){
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) {}
+        ta.remove();
+        return ok;
+      }
+
+      shareBtn.addEventListener('click', () => {
+        if (!lastShareText) return;
+        goal('calc_share');
+        shareStatusEl.textContent = '';
+        const fallback = () => copyText(lastShareText).then(ok => {
+          shareStatusEl.textContent = ok
+            ? 'Текст скопирован — вставьте его в сообщение или пост.'
+            : 'Не получилось скопировать автоматически. Текст: ' + lastShareText;
+        });
+        if (navigator.share) {
+          navigator.share({ text: lastShareText }).catch(err => {
+            if (err && err.name === 'AbortError') return;
+            fallback();
+          });
+        } else {
+          fallback();
+        }
+      });
+
+      rowsEl.addEventListener('input', () => { markEdited(); calculate(); });
+      rowsEl.addEventListener('click', e => {
+        const btn = e.target.closest('.rm');
+        if (!btn) return;
+        btn.closest('.tool-row').remove();
+        if (!rowsEl.querySelector('.tool-row')) addRow();
+        markEdited();
+        calculate();
+      });
+      periodEl.addEventListener('change', calculate);
+      document.querySelector('#addRow').addEventListener('click', () => {
+        addRow().querySelector('.f-name').focus();
+      });
+      document.querySelector('#calcBtn').addEventListener('click', () => {
+        calculate();
+        document.querySelector('#result').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      });
+      document.querySelector('#clearBtn').addEventListener('click', () => {
+        rowsEl.textContent = '';
+        markEdited();
+        const first = addRow();
+        addRow();
+        addRow();
+        calculate();
+        first.querySelector('.f-name').focus();
+      });
+      document.querySelector('#ctaAppStore').addEventListener('click', () => goal('calc_cta'));
+
+      EXAMPLE.forEach(addRow);
+      calculate();
     })();
   </script>
 </body>
